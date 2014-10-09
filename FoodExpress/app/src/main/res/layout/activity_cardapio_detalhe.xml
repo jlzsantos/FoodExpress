@@ -1,0 +1,174 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_layout"
+    android:orientation="vertical"
+    tools:context="com.example.foodexpress.cardapio.CardapioDetalhe">
+
+    <RelativeLayout
+        android:id="@+id/rlImagemProduto"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.3"
+        android:background="#FFFFFF"
+    >
+        <ImageView
+            android:id="@+id/imgProduto"
+            android:src="@drawable/pizza_144x144"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+        />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rlIngredientes"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.3"
+        android:background="#FFFFFF"
+        >
+
+        <!--
+        <EditText
+            android:id="@+id/name"
+            android:numeric="integer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="EditText" />
+        <Spinner
+            android:id="@+id/dates"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/name"
+            android:layout_alignParentLeft="true"
+            android:layout_toLeftOf="@+id/times" />
+        <Spinner
+            android:id="@id/times"
+            android:layout_width="96dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/name"
+            android:layout_alignParentRight="true" />
+        <Button
+            android:layout_width="96dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/times"
+            android:layout_alignParentRight="true"
+            android:text="Button"
+            android:id="@+id/button" />
+        -->
+
+        <TextView
+            android:gravity="center_horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="5dp"
+            android:textColor="@color/fonte_produto_detalhe_titulo"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/ingredientes"
+            android:id="@+id/tvIngredientesTitulo"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:id="@+id/tvIngredientes"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvIngredientesTitulo"
+            android:layout_alignParentLeft="true"
+            android:text="Farinha...."
+            android:gravity="center_horizontal"
+            android:paddingBottom="15dp"
+        />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rlPrecos"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.3"
+        android:background="@color/background_layout"
+        android:layout_marginTop="3dp"
+        >
+
+        <TextView
+            android:id="@+id/tvOpcoes"
+            android:text="Informe a quantidade"
+            android:gravity="center_horizontal"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/fonte_produto_detalhe_titulo"
+            android:layout_marginBottom="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+        />
+
+        <TextView
+            android:id="@+id/tvProduto"
+            android:textColor="@color/fonte_produto_detalhe_precos"
+            android:text="Maguerita grande"
+            android:textSize="18dp"
+            android:paddingTop="5dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvOpcoes"
+            android:layout_alignParentLeft="true"
+            android:layout_toLeftOf="@+id/etQtde" />
+
+        <EditText
+            android:id="@+id/etQtde"
+            android:textColor="@color/fonte_produto_detalhe_precos"
+            android:inputType="number"
+            android:maxLength="3"
+            android:textSize="18dp"
+            android:textCursorDrawable="@color/fonte_produto_detalhe_precos"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/tvProduto"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:gravity="center"
+        />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rlBotoes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvIngredientes"
+        android:layout_marginTop="3dp"
+        android:gravity="bottom"
+        >
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/background_layout"
+        >
+            <Button
+                android:id="@+id/btnCancelar"
+                android:text="@string/produtos"
+                android:background="@color/background_botao"
+                android:textColor="@color/fonte_botao_cancelar"
+                android:textSize="@dimen/fonte_botao_cancelar"
+                android:layout_marginRight="1dp"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1.0"
+            />
+
+            <Button
+                android:id="@+id/btnAdicionar"
+                android:text="@string/adicionar"
+                android:background="@color/background_botao"
+                android:textColor="@color/fonte_botao_adicionar"
+                android:textSize="@dimen/fonte_botao_adicionar"
+                android:layout_marginLeft="1dp"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1.0"
+            />
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>

@@ -1,0 +1,66 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/background_layout"
+    android:orientation="vertical"
+    tools:context="com.example.foodexpress.pedidos.ListaItensPedido">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.05" >
+
+        <ListView
+            android:id="@+id/lvPedidosItens"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:dividerHeight="1dp"
+            android:divider="@color/divisor_item_lista"
+            android:listSelector="@drawable/item_lista_pedidos_itens"
+            android:choiceMode="singleChoice" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/rlBotoes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:gravity="bottom">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/background_layout"
+            >
+            <Button
+                android:id="@+id/btnComprarMais"
+                android:text="@string/comprarMais"
+                android:background="@color/background_botao"
+                android:textColor="@color/fonte_botao_cancelar"
+                android:textSize="@dimen/fonte_botao_cancelar"
+                android:layout_marginRight="1dp"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1.0"
+                />
+
+            <Button
+                android:id="@+id/btnFinalizar"
+                android:text="@string/finalizar"
+                android:background="@color/background_botao"
+                android:textColor="@color/fonte_botao_adicionar"
+                android:textSize="@dimen/fonte_botao_adicionar"
+                android:layout_marginLeft="1dp"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1.0"
+                />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>

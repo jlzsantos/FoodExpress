@@ -1,0 +1,162 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_layout"
+    android:orientation="vertical"
+    tools:context="com.example.foodexpress.pedidos.FinalizarPedido">
+
+    <RelativeLayout
+        android:id="@+id/rlDadosFechamento"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.3"
+        android:layout_marginTop="3dp"
+        android:background="@color/background_layout_fechto_pedido"
+        >
+
+        <TextView
+            android:id="@+id/tvDadosFechto"
+            android:text="Dados do Fechamento"
+            android:gravity="center_horizontal"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/fonte_produto_detalhe_titulo"
+            android:textSize="18dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <RadioButton
+            android:id="@+id/rbRetiraBalcao"
+            android:text="Retira Balcão"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16dp"
+            android:onClick="onRadioButtonClicked"
+            android:layout_below="@+id/tvDadosFechto"
+            />
+
+        <RadioButton
+            android:id="@+id/rbEntregaDomicilio"
+            android:text="Entrega Express"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:onClick="onRadioButtonClicked"
+            android:layout_below="@+id/rbRetiraBalcao"
+            />
+
+        <TextView
+            android:id="@+id/tvTotalPedidoLabel"
+            android:textColor="@color/fonte_finaliza_pedido"
+            android:text="Valor do Pedido: "
+            android:textSize="15dp"
+            android:paddingTop="30dp"
+            android:layout_marginLeft="10dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/rbEntregaDomicilio"
+            android:layout_alignParentLeft="true"
+            android:layout_toLeftOf="@+id/tvTotalPedido"
+            android:layout_toStartOf="@+id/tvTotalPedido" />
+
+        <TextView
+            android:id="@+id/tvTotalPedido"
+            android:textColor="@color/fonte_finaliza_pedido"
+            android:text="R$ "
+            android:paddingTop="30dp"
+            android:textSize="15dp"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:layout_alignBottom="@+id/tvTotalPedidoLabel"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+        <TextView
+            android:id="@+id/tvCepInformadoLabel"
+            android:textColor="@color/fonte_finaliza_pedido"
+            android:text="Cep informado: "
+            android:paddingTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:textSize="16dp"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:layout_below="@+id/tvTotalPedidoLabel"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:id="@+id/tvCepInformado"
+            android:textColor="@color/fonte_finaliza_pedido"
+            android:text="-"
+            android:paddingTop="10dp"
+            android:textSize="16dp"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:layout_below="@+id/tvTotalPedidoLabel"
+            android:layout_toRightOf="@+id/tvTotalPedidoLabel"
+            android:layout_toEndOf="@+id/tvTotalPedidoLabel" />
+
+        <!--
+        <EditText
+            android:id="@+id/etQtde"
+            android:textColor="@color/fonte_produto_detalhe_precos"
+            android:inputType="number"
+            android:maxLength="3"
+            android:textSize="18dp"
+            android:textCursorDrawable="@color/fonte_produto_detalhe_precos"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/tvProduto"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:gravity="center"/>
+        -->
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rlBotoes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvIngredientes"
+        android:layout_marginTop="3dp"
+        android:gravity="bottom">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/background_layout"
+            >
+            <Button
+                android:id="@+id/btnCancelar"
+                android:text="@string/cancelar"
+                android:background="@color/background_botao"
+                android:textColor="@color/fonte_botao_cancelar"
+                android:textSize="@dimen/fonte_botao_cancelar"
+                android:layout_marginRight="1dp"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1.0"
+                />
+
+            <Button
+                android:id="@+id/btnFecharPedido"
+                android:text="@string/fecharPedido"
+                android:background="@color/background_botao"
+                android:textColor="@color/fonte_botao_adicionar"
+                android:textSize="@dimen/fonte_botao_adicionar"
+                android:layout_marginLeft="1dp"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1.0"
+                />
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>

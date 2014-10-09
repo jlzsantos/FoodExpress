@@ -1,0 +1,43 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:background="@color/background_layout"
+    tools:context="com.example.foodexpress.cardapio.CardapioProduto">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.05" >
+        <ListView
+            android:id="@+id/lvCardapioProduto"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:dividerHeight="1dp"
+            android:divider="@color/divisor_item_lista"
+            android:listSelector="@drawable/item_lista_cardapio"
+            android:choiceMode="singleChoice" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/background_layout"
+        >
+        <Button
+            android:id="@+id/btnCancelar"
+            android:text="@string/cardapio"
+            android:background="@color/background_botao"
+            android:textColor="@color/fonte_botao_cancelar"
+            android:textSize="@dimen/fonte_botao_cancelar"
+            android:layout_marginRight="1dp"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1.0"
+            />
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.foodexpress.deliveryfood" >
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_foodexpress"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name="com.example.foodexpress.principal.Main"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.example.foodexpress.cardapio.CardapioGrupo"
+            android:label="@string/title_activity_cardapio_grupo" >
+        </activity>
+        <activity
+            android:name="com.example.foodexpress.cardapio.CardapioProduto"
+            android:label="@string/title_activity_cardapio_produto" >
+        </activity>
+        <activity
+            android:name="com.example.foodexpress.cardapio.CardapioDetalhe"
+            android:label="@string/title_activity_cardapio_detalhe" >
+        </activity>
+        <activity
+            android:name="com.example.foodexpress.principal.EmConstrucao"
+            android:label="@string/title_activity_em_construcao" >
+        </activity>
+        <activity
+            android:name="com.example.foodexpress.pedidos.ListaItensPedido"
+            android:label="@string/title_activity_lista_itens_pedido" >
+        </activity>
+        <activity
+            android:name="com.example.foodexpress.pedidos.FinalizarPedido"
+            android:label="@string/title_activity_finalizar_pedido" >
+        </activity>
+        <activity
+            android:name="com.example.foodexpress.pedidos.ListaPedidos"
+            android:label="@string/title_activity_lista_pedidos" >
+        </activity>
+    </application>
+
+</manifest>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="divisor_item_lista">#FFFFFF</color>
+    <color name="fonte_lista_item">#FF7F27</color>          <!-- Branco  #FFFFFF -->
+    <color name="fonte_botao_cancelar">#FF7F27</color>      <!-- Vermelho ED1C24 -->
+    <color name="fonte_botao_adicionar">#000080</color>
+    <color name="fonte_botao_menu">#FF7F27</color>          <!-- Laranja -->
+    <color name="background_botao">#99D9EA</color>          <!-- Turqueza claro -->
+    <color name="background_layout">#FF0B0E10</color>
+    <color name="fonte_produto_detalhe_titulo">#FF0000</color>
+    <color name="fonte_produto_detalhe_precos">#FFFFFF</color>
+    <color name="background_layout_fechto_pedido">#C3C3C3</color>
+    <color name="fonte_finaliza_pedido">#000080</color>
+</resources>

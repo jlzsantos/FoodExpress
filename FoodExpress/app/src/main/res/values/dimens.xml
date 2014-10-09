@@ -1,0 +1,10 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="fonte_botao_menu">22dp</dimen>
+    <dimen name="fonte_botao_cancelar">20dp</dimen>
+    <dimen name="fonte_botao_adicionar">20dp</dimen>
+    <dimen name="fonte_item_lista">18dp</dimen>
+    <dimen name="fonte_item_lista_pedido_itens">14dp</dimen>
+</resources>

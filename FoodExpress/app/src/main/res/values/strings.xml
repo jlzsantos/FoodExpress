@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="action_settings">Configurações</string>
+    <string name="app_name">Delivery System Food</string>
+    <string name="btnCardapio">Cardápio</string>
+    <string name="btnPedidos">Pedidos</string>
+    <string name="btnEnderecos">Endereços</string>
+    <string name="btnFechar">Fechar</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="menu">Menu</string>
+    <string name="voltar">Voltar</string>
+    <string name="cardapio">Cardápio</string>
+    <string name="produtos">Produtos</string>
+    <string name="fecharPedido">Fechar Pedido</string>
+    <string name="title_activity_cardapio_grupo">Cardápio</string>
+    <string name="title_activity_cardapio_produto">Cardápio</string>
+    <string name="title_activity_cardapio_detalhe">Cardápio Detalhe</string>
+    <string name="ingredientes">Ingredientes</string>
+    <string name="adicionar">Adicionar</string>
+    <string name="title_activity_em_construcao">Em Construcao</string>
+    <string name="em_construcao">Página em construção...aguarde, em breve!</string>
+    <string name="title_activity_lista_itens_pedido">Itens do Pedido</string>
+    <string name="comprarMais">Comprar+</string>
+    <string name="finalizar">Finalizar</string>
+    <string name="title_activity_finalizar_pedido">Finalizar Pedido</string>
+    <string name="title_activity_lista_pedidos">Pedidos</string>
+
+</resources>
