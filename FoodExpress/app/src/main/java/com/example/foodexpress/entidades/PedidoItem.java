@@ -4,7 +4,7 @@ package com.example.foodexpress.entidades;
 import java.io.Serializable;
 import java.util.UUID;
 
-public class PedidoItem implements Serializable {
+public class PedidoItem implements Serializable, Comparable<PedidoItem> {
     private long idPedidoItem;
     private long idPedido;
     private float qtde;
@@ -16,7 +16,7 @@ public class PedidoItem implements Serializable {
         super();
     }
 
-    public PedidoItem(long idPedido, long idPedidoItem, float qtde, float vlrUnit, float vlrTotal, Produto produto){
+    public PedidoItem(long idPedido, long idPedidoItem, float qtde, float vlrUnit){
         super();
 
         UUID guid;
@@ -28,7 +28,7 @@ public class PedidoItem implements Serializable {
         this.qtde = qtde;
         this.vlrUnit = vlrUnit;
         this.vlrTotal = (qtde * vlrUnit);
-        this.produto = produto;
+        //this.produto = produto;
     }
 
     public long getIdPedidoItem() {
@@ -77,5 +77,10 @@ public class PedidoItem implements Serializable {
 
     public void setProduto(Produto produto) {
         this.produto = produto;
+    }
+
+    @Override
+    public int compareTo(PedidoItem item) {
+        return (int) this.getIdPedido();
     }
 }

@@ -1,6 +1,8 @@
 package com.example.foodexpress.cardapio;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -11,19 +13,26 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.foodexpress.deliveryfood.R;
+import com.example.foodexpress.entidades.Comanda;
+import com.example.foodexpress.entidades.Pedido;
 import com.example.foodexpress.entidades.ProdutoGrupo;
+import com.example.foodexpress.pedidos.PedidosHelper;
 import com.example.foodexpress.principal.ActivityBase;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class CardapioGrupo extends ActivityBase implements OnItemClickListener, View.OnClickListener {
 
     private static final int request_code = 5;
     private Button btnCancelar;
-    private ListView listaCardapioGrupo;
-    private ArrayList<ProdutoGrupo> listaProdutoGrupo;
+    private ListView _listaCardapioGrupo;
+    private ArrayList<ProdutoGrupo> _listaProdutoGrupo;
+    private PedidosHelper _pedidosHelper;
+    private Comanda _comanda;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -33,16 +42,21 @@ public class CardapioGrupo extends ActivityBase implements OnItemClickListener, 
         btnCancelar = (Button)findViewById(R.id.btnCancelar);
         btnCancelar.setOnClickListener(this);
 
-        // Popula lista de grupos de produto para mostrar no cardápio
-        listaProdutoGrupo = new ArrayList<ProdutoGrupo>();
-        listaProdutoGrupo.add(new ProdutoGrupo(1, "Pizzas"));
-        listaProdutoGrupo.add(new ProdutoGrupo(2, "Massas"));
-        listaProdutoGrupo.add(new ProdutoGrupo(3, "Sobremesas"));
-        listaProdutoGrupo.add(new ProdutoGrupo(4, "Bebidas"));
+        _pedidosHelper = new PedidosHelper(this);
+        _comanda = RetornaComanda();
 
-        listaCardapioGrupo = (ListView)findViewById(R.id.lvCardapioGrupo);
-        listaCardapioGrupo.setAdapter(new ListViewAdapterCardapioGrupo(this, listaProdutoGrupo));
-        listaCardapioGrupo.setOnItemClickListener(this);
+        // Popula lista de grupos de produto para mostrar no cardápio
+        _listaProdutoGrupo = new ArrayList<ProdutoGrupo>();
+        _listaProdutoGrupo.add(new ProdutoGrupo(1, "Pizzas"));
+        _listaProdutoGrupo.add(new ProdutoGrupo(2, "Massas"));
+        _listaProdutoGrupo.add(new ProdutoGrupo(3, "Sobremesas"));
+        _listaProdutoGrupo.add(new ProdutoGrupo(4, "Bebidas"));
+
+        _listaCardapioGrupo = (ListView)findViewById(R.id.lvCardapioGrupo);
+        _listaCardapioGrupo.setAdapter(new ListViewAdapterCardapioGrupo(this, _listaProdutoGrupo));
+        _listaCardapioGrupo.setOnItemClickListener(this);
+
+        iniciaPedido();
     }
 
     @Override
@@ -83,21 +97,52 @@ public class CardapioGrupo extends ActivityBase implements OnItemClickListener, 
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int posicao, long id) {
-        //String item = ((TextView)view).getText().toString();
 
         TextView tvIdGrupo = (TextView)view.findViewById(R.id.idprodutogrupo);
         String idGrupo = tvIdGrupo.getText().toString();
 
-        Intent i = new Intent(getApplicationContext(), CardapioProduto.class);
-        i.putExtra("idGrupo", idGrupo);
-        startActivityForResult(i, request_code);
+        _comanda.setIdGrupo(Integer.parseInt(idGrupo));
+        EnviaComanda(getApplicationContext(), CardapioProduto.class, _comanda);
 
         /*
-        AlertDialog.Builder dlg = new AlertDialog.Builder(this);
-        dlg.setTitle("FoodExpress");
-        dlg.setNeutralButton("Ok", null);
-        dlg.setMessage(idGrupo);
-        dlg.show();
+        Intent i = new Intent(getApplicationContext(), CardapioProduto.class);
+        i.putExtra("Comanda", _comanda);
+        startActivity(i);
         */
+    }
+
+    private void iniciaPedido(){
+
+        final ArrayList<Pedido> pedidos = _pedidosHelper.RetornaPedidosPorStatus(0);
+
+        if (pedidos != null && pedidos.size() > 0) {
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Existe um pedido aberto. Você deseja manter os itens ou começar um novo pedido?")
+                    .setTitle("FoodExpress")
+                    .setCancelable(false)
+                    .setPositiveButton("Manter", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // Continua pedido que está aberto
+                            _comanda.setIdPedido(pedidos.get(pedidos.size()-1).getIdPedido());
+                        }
+                    })
+                    .setNegativeButton("Novo", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // Excluir itens do pedido
+                        }
+                    })
+                    .setNeutralButton("Menu", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            finish();
+                        }
+                    });
+            builder.show();
+        } else {
+            // Adiciona um novo Pedido
+            Pedido pedido = new Pedido(0, new Date(), 0);
+            PedidosHelper pHelper = new PedidosHelper(this);
+            _comanda.setIdPedido(pHelper.AdicionaPedido(pedido));
+        }
     }
 }

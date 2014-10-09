@@ -11,6 +11,7 @@ import android.widget.Button;
 
 import com.example.foodexpress.cardapio.CardapioGrupo;
 import com.example.foodexpress.deliveryfood.R;
+import com.example.foodexpress.entidades.Comanda;
 import com.example.foodexpress.pedidos.ListaPedidos;
 
 
@@ -21,6 +22,7 @@ public class Main extends ActivityBase implements View.OnClickListener {
     private Button btnPedidos;
     private Button btnEnderecos;
     private Button btnFechar;
+    private Comanda comanda;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -36,6 +38,8 @@ public class Main extends ActivityBase implements View.OnClickListener {
         btnPedidos.setOnClickListener(this);
         btnEnderecos.setOnClickListener(this);
         btnFechar.setOnClickListener(this);
+
+        comanda = new Comanda();
     }
 
     @Override
@@ -71,7 +75,8 @@ public class Main extends ActivityBase implements View.OnClickListener {
         switch (idControle){
             case R.id.btnCardapio:
                 Intent iCardapioGrupo = new Intent(getApplicationContext(), CardapioGrupo.class);
-                startActivityForResult(iCardapioGrupo, request_code);
+                iCardapioGrupo.putExtra("Comanda", comanda);
+                startActivity(iCardapioGrupo);
                 break;
 
             case R.id.btnPedidos:

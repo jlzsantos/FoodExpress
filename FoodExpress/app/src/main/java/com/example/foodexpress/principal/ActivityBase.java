@@ -1,7 +1,15 @@
 package com.example.foodexpress.principal;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.TextView;
+
+import com.example.foodexpress.entidades.Comanda;
+import com.example.foodexpress.entidades.Produto;
 
 import java.util.ArrayList;
 
@@ -40,5 +48,62 @@ public class ActivityBase extends Activity {
                 activity.finish();
             }
         }
+    }
+
+    protected Comanda RetornaComanda(){
+
+        Comanda comanda;
+
+        Bundle extras = getIntent().getExtras();
+        if (extras == null) {
+            showMensagem("Comanda inválida.");
+            return null;
+        }
+
+        comanda = (Comanda)extras.getSerializable("Comanda");
+
+        if (comanda == null) {
+            showMensagem("Comanda inválida.");
+            return null;
+        }
+
+        return comanda;
+    }
+
+    protected void EnviaComanda(Context contexto, Class<?> atividade, Comanda comanda){
+        Intent i = new Intent(contexto, atividade);
+        i.putExtra("Comanda", comanda);
+        startActivity(i);
+    }
+
+    protected void showMensagem(String msg, final Intent atividade) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        final TextView viewT = new TextView(this);
+
+        builder.setTitle("FoodExpress").setMessage(msg).setView(viewT);
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+
+            public void onClick(DialogInterface di, int i) {
+                startActivity(atividade);
+                finishAll("com.example.foodexpress.principal.Main");
+            }
+        });
+        builder.create().show();
+    }
+
+    protected void showMensagem(String msg) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        final TextView viewT = new TextView(this);
+
+        builder.setTitle("FoodExpress").setMessage(msg).setView(viewT);
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+
+            public void onClick(DialogInterface di, int i) {
+                finishAll("com.example.foodexpress.principal.Main");
+            }
+        });
+        builder.create().show();
     }
 }

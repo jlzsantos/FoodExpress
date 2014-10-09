@@ -1,6 +1,5 @@
 package com.example.foodexpress.pedidos;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +12,7 @@ import android.widget.ListView;
 
 import com.example.foodexpress.cardapio.CardapioGrupo;
 import com.example.foodexpress.deliveryfood.R;
+import com.example.foodexpress.entidades.Comanda;
 import com.example.foodexpress.entidades.Pedido;
 import com.example.foodexpress.entidades.PedidoItem;
 import com.example.foodexpress.principal.ActivityBase;
@@ -23,14 +23,15 @@ import java.util.Date;
 public class ListaItensPedido extends ActivityBase implements AdapterView.OnItemClickListener, View.OnClickListener {
 
     private static final int request_code = 5;
-    private int idProduto;
     private PedidoItem item;
     private Button btnComprarMais;
     private Button btnFinalizar;
-    private ListView listaPedidoItens;
+    private ListView _listaPedidoItens;
+    private Comanda _comanda;
 
     private Pedido pedido;
-    private ArrayList<PedidoItem> pedidoItens;
+    private ArrayList<PedidoItem> _pedidoItens;
+    private PedidosHelper _pedidosHelper;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -53,12 +54,16 @@ public class ListaItensPedido extends ActivityBase implements AdapterView.OnItem
             return;
         }
 
-        item = (PedidoItem)extras.getSerializable("Item");
+        _pedidosHelper = new PedidosHelper(this);
+        _comanda = RetornaComanda();
+        adicionaItemPedido();
 
-        AdicionaItemPedido(item);
-        listaPedidoItens = (ListView)findViewById(R.id.lvPedidosItens);
-        listaPedidoItens.setAdapter(new ListViewAdapterPedidosItens(this, pedidoItens));
-        listaPedidoItens.setOnItemClickListener(this);
+        //_pedidosHelper.RemovePedidoItemPorIdPedido(_comanda.getIdPedido());
+        _pedidoItens = _pedidosHelper.RetornaPedidoItensPorIdPedido(_comanda.getIdPedido());
+
+        _listaPedidoItens = (ListView)findViewById(R.id.lvPedidosItens);
+        _listaPedidoItens.setAdapter(new ListViewAdapterPedidosItens(this, _pedidoItens));
+        _listaPedidoItens.setOnItemClickListener(this);
 
         /*
         String msg = item.getProduto().getdescricaoProduto() + " - " + Integer.toString(item.getProduto().getIdProduto()) + " - " + Float.toString(item.getQtde());
@@ -70,32 +75,11 @@ public class ListaItensPedido extends ActivityBase implements AdapterView.OnItem
         */
     }
 
-    private void AdicionaItemPedido(PedidoItem item)
+    private void adicionaItemPedido()
     {
-        if (item == null) {
-            AlertDialog.Builder dlg = new AlertDialog.Builder(this);
-            dlg.setTitle("FoodExpress");
-            dlg.setNeutralButton("Ok", null);
-            dlg.setMessage("Item de pedido inválido.");
-            dlg.show();
-            return;
-        }
-
-        if (pedido == null){
-            pedido = new Pedido();
-            pedido.setIdPedido(754);
-            pedido.setDataHoraEmissao(new Date());
-            pedido.setStatusPedido(1);
-        }
-
-        if (pedidoItens == null) {
-            pedidoItens = new ArrayList<PedidoItem>();
-            pedidoItens.add(new PedidoItem(pedido.getIdPedido(), 1, item.getQtde(), item.getVlrUnit(), item.getVlrTotal(), item.getProduto()));
-        } else {
-            pedidoItens.add(new PedidoItem(pedido.getIdPedido(), 1, item.getQtde(), item.getVlrUnit(), item.getVlrTotal(), item.getProduto()));
-        }
-
-        pedido.setItensPedido(pedidoItens);
+        PedidoItem novoItem = new PedidoItem(_comanda.getIdPedido(), 0, _comanda.getQtdeItem(), _comanda.getProduto().getPrecoVenda());
+        _pedidosHelper.AdicionaPedidoItem(novoItem);
+        _pedidoItens = _pedidosHelper.RetornaPedidoItensPorIdPedido(_comanda.getIdPedido());
     }
 
     @Override

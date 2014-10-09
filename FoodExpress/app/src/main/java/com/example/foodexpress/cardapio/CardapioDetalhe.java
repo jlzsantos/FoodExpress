@@ -1,8 +1,6 @@
 package com.example.foodexpress.cardapio;
 
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,9 +11,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.foodexpress.deliveryfood.R;
-import com.example.foodexpress.entidades.PedidoItem;
+import com.example.foodexpress.entidades.Comanda;
+import com.example.foodexpress.entidades.Pedido;
 import com.example.foodexpress.entidades.Produto;
 import com.example.foodexpress.pedidos.ListaItensPedido;
+import com.example.foodexpress.pedidos.PedidosHelper;
 import com.example.foodexpress.principal.ActivityBase;
 
 
@@ -28,13 +28,18 @@ public class CardapioDetalhe extends ActivityBase implements View.OnClickListene
     private TextView tvProduto;
     private EditText etQtde;
     private ImageView imgProduto;
-    private int idProduto;
-    private Produto produto;
+    private int _idProduto;
+    private Produto _produto;
+    private Pedido _pedido;
+    private PedidosHelper _pedidosHelper;
+    private Comanda _comanda;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cardapio_detalhe);
+
+        _pedidosHelper = new PedidosHelper(this);
 
         btnCancelar = (Button)findViewById(R.id.btnCancelar);
         btnCancelar.setOnClickListener(this);
@@ -47,34 +52,24 @@ public class CardapioDetalhe extends ActivityBase implements View.OnClickListene
         tvProduto = (TextView)findViewById(R.id.tvProduto);
         etQtde = (EditText)findViewById(R.id.etQtde);
 
-        Bundle extras = getIntent().getExtras();
-        if (extras == null) {
-            AlertDialog.Builder dlg = new AlertDialog.Builder(this);
-            dlg.setTitle("FoodExpress");
-            dlg.setNeutralButton("Ok", null);
-            dlg.setMessage("Não foi possível exibir o produto.");
-            dlg.show();
-            return;
-        }
+        _comanda = RetornaComanda();
+        _produto = _comanda.getProduto();
+        _idProduto = _produto.getIdProduto();
 
-        //String strIdProduto = extras.getString("idProduto");
-        produto = (Produto)extras.getSerializable("Produto");
-        idProduto = produto.getIdProduto(); //Integer.parseInt(strIdProduto);
+        super.setTitle(_produto.getdescricaoProduto());
+        tvIngredientes.setText(_produto.getIngredientes());
 
-        super.setTitle(produto.getdescricaoProduto());
-        tvIngredientes.setText(produto.getIngredientes());
-
-        String preco_format = String.format("%.2f", produto.getPrecoVenda());
+        String preco_format = String.format("%.2f", _produto.getPrecoVenda());
         preco_format = "R$ " + preco_format.replace(".", ",");
-        tvProduto.setText(produto.getdescricaoProduto() + " - " + preco_format);
+        tvProduto.setText(_produto.getdescricaoProduto() + " - " + preco_format);
 
-        if (idProduto >= 1 && idProduto <= 20) {
+        if (_idProduto >= 1 && _idProduto <= 20) {
             imgProduto.setImageResource(R.drawable.pizza_144x144);
-        } else if (idProduto >= 21 && idProduto <= 30) {
+        } else if (_idProduto >= 21 && _idProduto <= 30) {
             imgProduto.setImageResource(R.drawable.ic_foodexpress);
-        } else if (idProduto >= 31 && idProduto <= 40) {
+        } else if (_idProduto >= 31 && _idProduto <= 40) {
             imgProduto.setImageResource(R.drawable.ic_foodexpress);
-        } else if (idProduto >= 41 && idProduto <= 50) {
+        } else if (_idProduto >= 41 && _idProduto <= 50) {
             imgProduto.setImageResource(R.drawable.ic_foodexpress);
         } else {
             imgProduto.setImageResource(R.drawable.ic_foodexpress);
@@ -113,12 +108,6 @@ public class CardapioDetalhe extends ActivityBase implements View.OnClickListene
                 break;
 
             case R.id.btnAdicionar:
-
-                /*
-                Intent i = new Intent(getApplicationContext(), ListaItensPedido.class);
-                i.putExtra("Produto", produto);
-                */
-
                 String qtde = etQtde.getText().toString();
 
                 if (qtde == null || qtde.equals("")) {
@@ -130,25 +119,29 @@ public class CardapioDetalhe extends ActivityBase implements View.OnClickListene
                     return;
                 }
 
+                /*
                 PedidoItem item = new PedidoItem();
                 item.setQtde(Float.valueOf(qtde));
-                item.setVlrUnit(produto.getPrecoVenda());
-                item.setProduto(produto);
+                item.setVlrUnit(_produto.getPrecoVenda());
+                item.setProduto(_produto);
 
                 Intent i = new Intent(getApplicationContext(), ListaItensPedido.class);
                 i.putExtra("Item", (java.io.Serializable) item);
 
                 startActivityForResult(i, request_code);
+                */
 
-                //startActivity(itensPedido);
+                _comanda.setQtdeItem(Float.valueOf(qtde));
+                EnviaComanda(getApplicationContext(), ListaItensPedido.class, _comanda);
                 break;
         }
     }
 
+    /*
     @Override
     public void finish(){
         setResult(RESULT_CANCELED);
         super.finish();
     }
-
+    */
 }

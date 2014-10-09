@@ -171,6 +171,7 @@ public class FinalizarPedido extends ActivityBase implements View.OnClickListene
         }
     }
 
+    /*
     private void showMensagem(String msg, final Intent atividade) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -186,6 +187,7 @@ public class FinalizarPedido extends ActivityBase implements View.OnClickListene
         });
         builder.create().show();
     }
+    */
 
     public void onRadioButtonClicked(View view) {
         // Is the button now checked?

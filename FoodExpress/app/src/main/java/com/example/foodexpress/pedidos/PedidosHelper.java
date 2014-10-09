@@ -7,8 +7,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.example.foodexpress.bancodados.DatabaseHelper;
+import com.example.foodexpress.bancodados.schema.PedidoItemSchema;
 import com.example.foodexpress.bancodados.schema.PedidoSchema;
 import com.example.foodexpress.entidades.Pedido;
+import com.example.foodexpress.entidades.PedidoItem;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -51,8 +53,41 @@ public class PedidosHelper {
         }
     }
 
-    public ArrayList<Pedido> RetornaPedidos() {
+    public void AdicionaPedidoItem(PedidoItem item){
+        try {
+            SQLiteDatabase db = dbHelper.getWritableDatabase();
 
+            ContentValues value = new ContentValues();
+            value.put(PedidoItemSchema.KEY_PEDIDO_ID, item.getIdPedido());
+            value.put(PedidoItemSchema.KEY_QTDE, item.getQtde());
+            value.put(PedidoItemSchema.KEY_VLR_UNIT, item.getVlrUnit());
+
+            db.insert(PedidoItemSchema.TABLE_NAME, null, value);
+
+        } catch (Exception ex) {
+            AlertDialog.Builder dlg = new AlertDialog.Builder(contexto);
+            dlg.setTitle("FoodExpress");
+            dlg.setNeutralButton("Ok", null);
+            dlg.setMessage("Não foi possível adicionar o item do pedido.");
+            dlg.show();
+        }
+    }
+
+    public void RemovePedidoItemPorIdPedido(long id){
+        try{
+            SQLiteDatabase db = dbHelper.getWritableDatabase();
+            db.delete(PedidoItemSchema.TABLE_NAME, PedidoItemSchema.KEY_PEDIDO_ID + " = ?", new String[] { String.valueOf(id) });
+            db.close();
+        } catch (Exception ex) {
+            AlertDialog.Builder dlg = new AlertDialog.Builder(contexto);
+            dlg.setTitle("FoodExpress");
+            dlg.setNeutralButton("Ok", null);
+            dlg.setMessage("Não foi possível excluir os itens do pedido.");
+            dlg.show();
+        }
+    }
+
+    public ArrayList<Pedido> RetornaPedidos() {
         ArrayList<Pedido> pedidos = new ArrayList<Pedido>();
 
         final String query = PedidoSchema.getQueryConsultaPedidos();
@@ -82,7 +117,7 @@ public class PedidosHelper {
             AlertDialog.Builder dlg = new AlertDialog.Builder(contexto);
             dlg.setTitle("FoodExpress");
             dlg.setNeutralButton("Ok", null);
-            dlg.setMessage("Não foi possível adicionar o item no pedido.");
+            dlg.setMessage("Não foi possível efetuar a pesquisa.");
             dlg.show();
         }
         finally
@@ -93,7 +128,6 @@ public class PedidosHelper {
     }
 
     public ArrayList<Pedido> RetornaPedidosPorStatus(int status) {
-
         ArrayList<Pedido> pedidos = new ArrayList<Pedido>();
 
         final String query = PedidoSchema.getQueryConsultaPedidosPorStatus(status);
@@ -123,13 +157,53 @@ public class PedidosHelper {
             AlertDialog.Builder dlg = new AlertDialog.Builder(contexto);
             dlg.setTitle("FoodExpress");
             dlg.setNeutralButton("Ok", null);
-            dlg.setMessage("Não foi possível adicionar o item no pedido.");
+            dlg.setMessage("Não foi possível efetuar a pesquisa.");
             dlg.show();
         }
         finally
         {
             cursor.close();
             return pedidos;
+        }
+    }
+
+    public ArrayList<PedidoItem> RetornaPedidoItensPorIdPedido(long id){
+        ArrayList<PedidoItem> pedidoItens = new ArrayList<PedidoItem>();
+
+        final String query = PedidoItemSchema.getQueryConsultaPedidoItemPorIdPedido(id);
+
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        try
+        {
+            if (cursor.moveToFirst()) {
+                do {
+                    long idItem = Long.parseLong(cursor.getString(0));
+                    long idPedido = Long.parseLong(cursor.getString(1));
+                    float qtde = Float.parseFloat(cursor.getString(2));
+                    float vlrUnit = Float.parseFloat(cursor.getString(3));
+
+                    PedidoItem item = new PedidoItem(idItem, idPedido, qtde, vlrUnit);
+                    pedidoItens.add(item);
+
+                } while (cursor.moveToNext());
+            }
+
+            Collections.sort(pedidoItens);
+        }
+        catch (Exception ex)
+        {
+            AlertDialog.Builder dlg = new AlertDialog.Builder(contexto);
+            dlg.setTitle("FoodExpress");
+            dlg.setNeutralButton("Ok", null);
+            dlg.setMessage("Não foi possível efetuar a pesquisa.");
+            dlg.show();
+        }
+        finally
+        {
+            cursor.close();
+            return pedidoItens;
         }
     }
 }

@@ -25,6 +25,21 @@ public final class PedidoSchema {
         return query;
     }
 
+    public static String getQueryConsultaPedidosPorId(long id) {
+        String str = "SELECT "
+                + KEY_ID + ", "
+                + KEY_DATE_TIME_ISSUE + ", "
+                + KEY_STATUS_PEDIDO + ", "
+                + KEY_DESCRICAO_STATUS
+                + " FROM "
+                + TABLE_NAME
+                + " WHERE "
+                + KEY_ID + " = %d";
+
+        final String query = String.format(str, id);
+        return query;
+    }
+
     public static String getQueryConsultaPedidosPorStatus(int status) {
         String str = "SELECT "
                 + KEY_ID + ", "

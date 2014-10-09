@@ -1,6 +1,5 @@
 package com.example.foodexpress.cardapio;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +12,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.foodexpress.deliveryfood.R;
+import com.example.foodexpress.entidades.Comanda;
 import com.example.foodexpress.entidades.Produto;
 import com.example.foodexpress.principal.ActivityBase;
 
@@ -21,10 +21,11 @@ import java.util.ArrayList;
 public class CardapioProduto extends ActivityBase implements AdapterView.OnItemClickListener, View.OnClickListener {
 
     private static final int request_code = 5;
-    private int idGrupo;
+    private int _idGrupo;
     private Button btnCancelar;
-    private ListView listaCardapioProduto;
-    private ArrayList<Produto> listaProdutos;
+    private ListView _listaCardapioProduto;
+    private ArrayList<Produto> _listaProdutos;
+    private Comanda _comanda;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -44,36 +45,36 @@ public class CardapioProduto extends ActivityBase implements AdapterView.OnItemC
             return;
         }
 
-        String strGrupo = extras.getString("idGrupo");
-        idGrupo = Integer.parseInt(strGrupo);
+        _comanda = RetornaComanda();
+        _idGrupo = _comanda.getIdGrupo();
 
-        listaProdutos = new ArrayList<Produto>();
+        _listaProdutos = new ArrayList<Produto>();
 
-        switch (idGrupo){
+        switch (_idGrupo){
             case 1:     // Pizzas
-                listaProdutos = RetornaListaPizzas();
+                _listaProdutos = RetornaListaPizzas();
                 super.setTitle("Pizzas");
                 break;
 
             case 2:     // Massas
-                listaProdutos = RetornaListaMassas();
+                _listaProdutos = RetornaListaMassas();
                 super.setTitle("Massas");
                 break;
 
             case 3:     // Sobremesas
-                listaProdutos = RetornaListaSobremesas();
+                _listaProdutos = RetornaListaSobremesas();
                 super.setTitle("Sobremesas");
                 break;
 
             case 4:     // Bebidas
-                listaProdutos = RetornaListaBebidas();
+                _listaProdutos = RetornaListaBebidas();
                 super.setTitle("Bebidas");
                 break;
         }
 
-        listaCardapioProduto = (ListView)findViewById(R.id.lvCardapioProduto);
-        listaCardapioProduto.setAdapter(new ListViewAdapterCardapioProduto(this, listaProdutos));
-        listaCardapioProduto.setOnItemClickListener(this);
+        _listaCardapioProduto = (ListView)findViewById(R.id.lvCardapioProduto);
+        _listaCardapioProduto.setAdapter(new ListViewAdapterCardapioProduto(this, _listaProdutos));
+        _listaCardapioProduto.setOnItemClickListener(this);
     }
 
     @Override
@@ -113,11 +114,15 @@ public class CardapioProduto extends ActivityBase implements AdapterView.OnItemC
         //String idProduto = tvIdProduto.getText().toString();
 
         Produto produto = (Produto)adapterView.getItemAtPosition(posicao);
+        _comanda.setProduto(produto);
+        EnviaComanda(getApplicationContext(), CardapioDetalhe.class, _comanda);
 
+        /*
         Intent i = new Intent(getApplicationContext(), CardapioDetalhe.class);
         //i.putExtra("idProduto", idProduto);
         i.putExtra("Produto", produto);
         startActivityForResult(i, request_code);
+        */
     }
 
     @Override
