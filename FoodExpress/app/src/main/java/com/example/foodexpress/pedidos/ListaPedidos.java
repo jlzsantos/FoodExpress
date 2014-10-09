@@ -35,6 +35,8 @@ public class ListaPedidos extends ActivityBase implements AdapterView.OnItemClic
         listViewPedidos = (ListView)findViewById(R.id.lvPedidos);
         listViewPedidos.setAdapter(new ListViewAdapterListaPedidos(this, listaPedidos));
         listViewPedidos.setOnItemClickListener(this);
+
+        // teste
     }
 
     @Override
