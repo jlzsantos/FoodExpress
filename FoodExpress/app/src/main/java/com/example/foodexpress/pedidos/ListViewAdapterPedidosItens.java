@@ -46,7 +46,7 @@ public class ListViewAdapterPedidosItens extends BaseAdapter {
         view = inflater.inflate(R.layout.lista_pedido_item, null);
 
         TextView idProduto = (TextView)view.findViewById(R.id.idproduto);
-        idProduto.setText(String.valueOf(item.getProduto().getIdProduto()));
+        idProduto.setText(String.valueOf(item.getIdProduto()));
 
         TextView idPedidoItem = (TextView)view.findViewById(R.id.idpedidoitem);
         idPedidoItem.setText(String.valueOf(item.getIdPedidoItem()));

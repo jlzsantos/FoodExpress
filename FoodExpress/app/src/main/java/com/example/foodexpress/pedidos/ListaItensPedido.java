@@ -56,10 +56,11 @@ public class ListaItensPedido extends ActivityBase implements AdapterView.OnItem
 
         _pedidosHelper = new PedidosHelper(this);
         _comanda = RetornaComanda();
-        adicionaItemPedido();
 
-        //_pedidosHelper.RemovePedidoItemPorIdPedido(_comanda.getIdPedido());
+        _pedidoItens = new ArrayList<PedidoItem>();
         _pedidoItens = _pedidosHelper.RetornaPedidoItensPorIdPedido(_comanda.getIdPedido());
+
+        //_pedidoItens.add(new PedidoItem(2, 0, 1, Float.valueOf(2), Float.valueOf(32), _comanda.getProduto()));
 
         _listaPedidoItens = (ListView)findViewById(R.id.lvPedidosItens);
         _listaPedidoItens.setAdapter(new ListViewAdapterPedidosItens(this, _pedidoItens));
@@ -73,13 +74,6 @@ public class ListaItensPedido extends ActivityBase implements AdapterView.OnItem
         dlg.setMessage(msg);
         dlg.show();
         */
-    }
-
-    private void adicionaItemPedido()
-    {
-        PedidoItem novoItem = new PedidoItem(_comanda.getIdPedido(), 0, _comanda.getQtdeItem(), _comanda.getProduto().getPrecoVenda());
-        _pedidosHelper.AdicionaPedidoItem(novoItem);
-        _pedidoItens = _pedidosHelper.RetornaPedidoItensPorIdPedido(_comanda.getIdPedido());
     }
 
     @Override

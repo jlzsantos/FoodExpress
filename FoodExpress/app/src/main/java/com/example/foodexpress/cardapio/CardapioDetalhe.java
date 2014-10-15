@@ -1,6 +1,7 @@
 package com.example.foodexpress.cardapio;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import com.example.foodexpress.deliveryfood.R;
 import com.example.foodexpress.entidades.Comanda;
 import com.example.foodexpress.entidades.Pedido;
+import com.example.foodexpress.entidades.PedidoItem;
 import com.example.foodexpress.entidades.Produto;
 import com.example.foodexpress.pedidos.ListaItensPedido;
 import com.example.foodexpress.pedidos.PedidosHelper;
@@ -131,10 +133,19 @@ public class CardapioDetalhe extends ActivityBase implements View.OnClickListene
                 startActivityForResult(i, request_code);
                 */
 
+                //_pedidosHelper.RemovePedidoItemPorIdPedido(_comanda.getIdPedido());
+                adicionaItemPedido(Float.valueOf(qtde));
                 _comanda.setQtdeItem(Float.valueOf(qtde));
                 EnviaComanda(getApplicationContext(), ListaItensPedido.class, _comanda);
+
                 break;
         }
+    }
+
+    private void adicionaItemPedido(float qtde)
+    {
+        PedidoItem novoItem = new PedidoItem(_comanda.getIdPedido(), 0, _produto.getIdProduto(), qtde, _produto.getPrecoVenda(), _produto);
+        _pedidosHelper.AdicionaPedidoItem(novoItem);
     }
 
     /*

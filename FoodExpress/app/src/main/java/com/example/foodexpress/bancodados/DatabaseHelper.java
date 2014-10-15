@@ -10,7 +10,7 @@ import com.example.foodexpress.bancodados.schema.PedidoSchema;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "FoodExpress";
-    private static int DATABASE_VERSION = 1;
+    private static int DATABASE_VERSION = 2;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -33,6 +33,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + "("
                 + PedidoItemSchema.KEY_ID + " INTEGER PRIMARY KEY, "
                 + PedidoItemSchema.KEY_PEDIDO_ID + " INTEGER, "
+                + PedidoItemSchema.KEY_PRODUTO_ID + " INTEGER, "
                 + PedidoItemSchema.KEY_QTDE + " FLOAT, "
                 + PedidoItemSchema.KEY_VLR_UNIT + " FLOAT, "
                 + "FOREIGN KEY(" + PedidoItemSchema.KEY_PEDIDO_ID + ") " + " REFERENCES " + PedidoSchema.TABLE_NAME + "(" + PedidoSchema.KEY_ID + ")"
@@ -42,8 +43,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + PedidoSchema.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + PedidoItemSchema.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + PedidoSchema.TABLE_NAME);
         onCreate(db);
     }
 }

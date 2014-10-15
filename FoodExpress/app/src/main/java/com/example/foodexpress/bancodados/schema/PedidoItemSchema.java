@@ -9,6 +9,7 @@ public final class PedidoItemSchema {
     public static final String TABLE_NAME = "PedidoItem";
     public static final String KEY_ID = "id";
     public static final String KEY_PEDIDO_ID = "pedido_id";
+    public static final String KEY_PRODUTO_ID = "produto_id";
     public static final String KEY_QTDE = "qtde";
     public static final String KEY_VLR_UNIT = "vlr_unit";
 
@@ -17,6 +18,7 @@ public final class PedidoItemSchema {
         String str = "SELECT "
                 + KEY_ID + ", "
                 + KEY_PEDIDO_ID + ", "
+                + KEY_PRODUTO_ID + ", "
                 + KEY_QTDE + ", "
                 + KEY_VLR_UNIT
                 + " FROM "

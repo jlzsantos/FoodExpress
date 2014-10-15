@@ -11,6 +11,7 @@ import com.example.foodexpress.bancodados.schema.PedidoItemSchema;
 import com.example.foodexpress.bancodados.schema.PedidoSchema;
 import com.example.foodexpress.entidades.Pedido;
 import com.example.foodexpress.entidades.PedidoItem;
+import com.example.foodexpress.entidades.Produto;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -59,6 +60,7 @@ public class PedidosHelper {
 
             ContentValues value = new ContentValues();
             value.put(PedidoItemSchema.KEY_PEDIDO_ID, item.getIdPedido());
+            value.put(PedidoItemSchema.KEY_PRODUTO_ID, item.getIdProduto());
             value.put(PedidoItemSchema.KEY_QTDE, item.getQtde());
             value.put(PedidoItemSchema.KEY_VLR_UNIT, item.getVlrUnit());
 
@@ -181,10 +183,13 @@ public class PedidosHelper {
                 do {
                     long idItem = Long.parseLong(cursor.getString(0));
                     long idPedido = Long.parseLong(cursor.getString(1));
-                    float qtde = Float.parseFloat(cursor.getString(2));
-                    float vlrUnit = Float.parseFloat(cursor.getString(3));
+                    long idProduto = Long.parseLong(cursor.getString(2));
+                    float qtde = Float.parseFloat(cursor.getString(3));
+                    float vlrUnit = Float.parseFloat(cursor.getString(4));
+                    // provisório
+                    Produto produto = new Produto(1, "Maguerita", 32.00f, "(Maguerita) Farinha de trigo, fermento biológico seco, açúcar, sal, azeite, ovos, molho de tomate, mussarela de búfala e manjericão");
 
-                    PedidoItem item = new PedidoItem(idItem, idPedido, qtde, vlrUnit);
+                    PedidoItem item = new PedidoItem(idItem, idPedido, idProduto, qtde, vlrUnit, produto);
                     pedidoItens.add(item);
 
                 } while (cursor.moveToNext());

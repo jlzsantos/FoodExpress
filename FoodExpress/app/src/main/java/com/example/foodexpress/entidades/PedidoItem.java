@@ -7,6 +7,7 @@ import java.util.UUID;
 public class PedidoItem implements Serializable, Comparable<PedidoItem> {
     private long idPedidoItem;
     private long idPedido;
+    private long idProduto;
     private float qtde;
     private float vlrUnit;
     private float vlrTotal;
@@ -16,7 +17,7 @@ public class PedidoItem implements Serializable, Comparable<PedidoItem> {
         super();
     }
 
-    public PedidoItem(long idPedido, long idPedidoItem, float qtde, float vlrUnit){
+    public PedidoItem(long idPedido, long idPedidoItem, long idProduto, float qtde, float vlrUnit, Produto produto){
         super();
 
         UUID guid;
@@ -25,10 +26,11 @@ public class PedidoItem implements Serializable, Comparable<PedidoItem> {
         //this.idPedidoItem = guid.toString();
         this.idPedido = idPedido;
         this.idPedidoItem = idPedidoItem;
+        this.idProduto = idProduto;
         this.qtde = qtde;
         this.vlrUnit = vlrUnit;
         this.vlrTotal = (qtde * vlrUnit);
-        //this.produto = produto;
+        this.produto = produto;
     }
 
     public long getIdPedidoItem() {
@@ -82,5 +84,13 @@ public class PedidoItem implements Serializable, Comparable<PedidoItem> {
     @Override
     public int compareTo(PedidoItem item) {
         return (int) this.getIdPedido();
+    }
+
+    public long getIdProduto() {
+        return idProduto;
+    }
+
+    public void setIdProduto(long idProduto) {
+        this.idProduto = idProduto;
     }
 }
