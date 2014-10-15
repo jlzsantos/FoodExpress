@@ -1,6 +1,5 @@
 package com.example.foodexpress.pedidos;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -14,14 +13,11 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
-import com.example.foodexpress.cardapio.CardapioDetalhe;
-import com.example.foodexpress.cardapio.CardapioGrupo;
+import com.example.foodexpress.bancodados.PedidoHelper;
 import com.example.foodexpress.deliveryfood.R;
 import com.example.foodexpress.entidades.Pedido;
 import com.example.foodexpress.principal.ActivityBase;
 import com.example.foodexpress.principal.Main;
-
-import org.w3c.dom.Text;
 
 public class FinalizarPedido extends ActivityBase implements View.OnClickListener {
 
@@ -128,7 +124,7 @@ public class FinalizarPedido extends ActivityBase implements View.OnClickListene
     }
 
     private boolean adicionaPedido() {
-        PedidosHelper pHelper = new PedidosHelper(this);
+        PedidoHelper pHelper = new PedidoHelper(this);
         long idPedido = pHelper.AdicionaPedido(pedido);
 
         return (idPedido > 0);

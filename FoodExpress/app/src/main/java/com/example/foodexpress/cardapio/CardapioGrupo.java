@@ -1,9 +1,7 @@
 package com.example.foodexpress.cardapio;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,13 +11,12 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.foodexpress.deliveryfood.R;
 import com.example.foodexpress.entidades.Comanda;
 import com.example.foodexpress.entidades.Pedido;
 import com.example.foodexpress.entidades.ProdutoGrupo;
-import com.example.foodexpress.pedidos.PedidosHelper;
+import com.example.foodexpress.bancodados.PedidoHelper;
 import com.example.foodexpress.principal.ActivityBase;
 
 import java.util.ArrayList;
@@ -31,7 +28,7 @@ public class CardapioGrupo extends ActivityBase implements OnItemClickListener, 
     private Button btnCancelar;
     private ListView _listaCardapioGrupo;
     private ArrayList<ProdutoGrupo> _listaProdutoGrupo;
-    private PedidosHelper _pedidosHelper;
+    private PedidoHelper _pedidosHelper;
     private Comanda _comanda;
 
     @Override
@@ -42,7 +39,7 @@ public class CardapioGrupo extends ActivityBase implements OnItemClickListener, 
         btnCancelar = (Button)findViewById(R.id.btnCancelar);
         btnCancelar.setOnClickListener(this);
 
-        _pedidosHelper = new PedidosHelper(this);
+        _pedidosHelper = new PedidoHelper(this);
         _comanda = RetornaComanda();
 
         // Popula lista de grupos de produto para mostrar no cardápio
@@ -141,7 +138,7 @@ public class CardapioGrupo extends ActivityBase implements OnItemClickListener, 
         } else {
             // Adiciona um novo Pedido
             Pedido pedido = new Pedido(0, new Date(), 0);
-            PedidosHelper pHelper = new PedidosHelper(this);
+            PedidoHelper pHelper = new PedidoHelper(this);
             _comanda.setIdPedido(pHelper.AdicionaPedido(pedido));
         }
     }

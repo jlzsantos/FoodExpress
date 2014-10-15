@@ -2,9 +2,9 @@ package com.example.foodexpress.entidades;
 
 import java.io.Serializable;
 
-public class Produto implements Serializable {
-    private int idProduto;
-    private int idCategoriaProduto;
+public class Produto implements Serializable, Comparable<Produto> {
+    private long idProduto;
+    private long idProdutoGrupo;
     private String descricaoProduto;
     private float precoVenda;
     private String ingredientes;
@@ -13,36 +13,37 @@ public class Produto implements Serializable {
         super();
     }
     
-    public Produto(int idProduto, String descricao, float precoVenda, String ingredientes){
+    public Produto(long idProduto, long idGrupo, String descricao, float precoVenda, String ingredientes){
         super();
         
         this.idProduto = idProduto;
+        this.idProdutoGrupo = idGrupo;
         this.descricaoProduto = descricao;
         this.precoVenda = precoVenda;
         this.ingredientes = ingredientes;
     }
     
-    public int getIdProduto() {
+    public long getIdProduto() {
         return idProduto;
     }
 
-    public void setIdProduto(int idProduto) {
+    public void setIdProduto(long idProduto) {
         this.idProduto = idProduto;
     }
 
-    public int getIdCategoriaProduto() {
-        return idCategoriaProduto;
+    public long getIdProdutoGrupo() {
+        return idProdutoGrupo;
     }
 
-    public void setIdCategoriaProduto(int idCategoriaProduto) {
-        this.idCategoriaProduto = idCategoriaProduto;
+    public void setIdProdutoGrupo(long idProdutoGrupo) {
+        this.idProdutoGrupo = idProdutoGrupo;
     }
 
-    public String getdescricaoProduto() {
+    public String getDescricaoProduto() {
         return descricaoProduto;
     }
 
-    public void setdescricaoProduto(String descricaoProduto) {
+    public void setDescricaoProduto(String descricaoProduto) {
         this.descricaoProduto = descricaoProduto;
     }
 
@@ -60,5 +61,10 @@ public class Produto implements Serializable {
 
     public void setIngredientes(String ingredientes) {
         this.ingredientes = ingredientes;
+    }
+
+    @Override
+    public int compareTo(Produto produto) {
+        return (int) this.getIdProduto();
     }
 }

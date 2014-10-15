@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
+import com.example.foodexpress.bancodados.PedidoHelper;
 import com.example.foodexpress.cardapio.CardapioGrupo;
 import com.example.foodexpress.deliveryfood.R;
 import com.example.foodexpress.entidades.Comanda;
@@ -18,7 +19,6 @@ import com.example.foodexpress.entidades.PedidoItem;
 import com.example.foodexpress.principal.ActivityBase;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 public class ListaItensPedido extends ActivityBase implements AdapterView.OnItemClickListener, View.OnClickListener {
 
@@ -31,7 +31,7 @@ public class ListaItensPedido extends ActivityBase implements AdapterView.OnItem
 
     private Pedido pedido;
     private ArrayList<PedidoItem> _pedidoItens;
-    private PedidosHelper _pedidosHelper;
+    private PedidoHelper _pedidosHelper;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -54,7 +54,7 @@ public class ListaItensPedido extends ActivityBase implements AdapterView.OnItem
             return;
         }
 
-        _pedidosHelper = new PedidosHelper(this);
+        _pedidosHelper = new PedidoHelper(this);
         _comanda = RetornaComanda();
 
         _pedidoItens = new ArrayList<PedidoItem>();

@@ -1,9 +1,10 @@
 package com.example.foodexpress.entidades;
 
+import java.io.Serializable;
 import java.lang.String;
 import java.util.UUID;
 
-public class ProdutoGrupo{
+public class ProdutoGrupo implements Serializable, Comparable<ProdutoGrupo>{
 
     private long idProdutoGrupo;
     private String descricaoGrupo;
@@ -37,5 +38,10 @@ public class ProdutoGrupo{
 
     public void setDescricaoGrupo(String descricaoGrupo) {
         this.descricaoGrupo = descricaoGrupo;
+    }
+
+    @Override
+    public int compareTo(ProdutoGrupo grupo) {
+        return (int) this.getIdProdutoGrupo();
     }
 }

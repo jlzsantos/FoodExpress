@@ -45,7 +45,7 @@ public class ListViewAdapterCardapioProduto extends BaseAdapter {
         idProduto.setText(String.valueOf(produto.getIdProduto()));
 
         TextView descricao = (TextView)view.findViewById(R.id.descricaoproduto);
-        descricao.setText(produto.getdescricaoProduto());
+        descricao.setText(produto.getDescricaoProduto());
 
         TextView precoVenda = (TextView)view.findViewById(R.id.precovenda);
         String preco_format = String.format("%.2f", produto.getPrecoVenda()); //String.valueOf(produto.getPrecoVenda());

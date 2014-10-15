@@ -6,11 +6,13 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.example.foodexpress.bancodados.schema.PedidoItemSchema;
 import com.example.foodexpress.bancodados.schema.PedidoSchema;
+import com.example.foodexpress.bancodados.schema.ProdutoGrupoSchema;
+import com.example.foodexpress.bancodados.schema.ProdutoSchema;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "FoodExpress";
-    private static int DATABASE_VERSION = 2;
+    private static int DATABASE_VERSION = 3;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -20,7 +22,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
 
         // Create Table Pedido
-        String CREATE_PEDIDO_TABLE = "CREATE TABLE " + PedidoSchema.TABLE_NAME
+        final String CREATE_PEDIDO_TABLE = "CREATE TABLE " + PedidoSchema.TABLE_NAME
                 + "("
                 + PedidoSchema.KEY_ID + " INTEGER PRIMARY KEY, "
                 + PedidoSchema.KEY_DATE_TIME_ISSUE + " DATE, "
@@ -29,7 +31,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_PEDIDO_TABLE);
 
         // Create Table PedidoItem
-        String CREATE_PEDIDO_ITEM_TABLE = "CREATE TABLE " + PedidoItemSchema.TABLE_NAME
+        final String CREATE_PEDIDO_ITEM_TABLE = "CREATE TABLE " + PedidoItemSchema.TABLE_NAME
                 + "("
                 + PedidoItemSchema.KEY_ID + " INTEGER PRIMARY KEY, "
                 + PedidoItemSchema.KEY_PEDIDO_ID + " INTEGER, "
@@ -39,12 +41,34 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + "FOREIGN KEY(" + PedidoItemSchema.KEY_PEDIDO_ID + ") " + " REFERENCES " + PedidoSchema.TABLE_NAME + "(" + PedidoSchema.KEY_ID + ")"
                 + ");";
         db.execSQL(CREATE_PEDIDO_ITEM_TABLE);
+
+        // Create Table ProdutoGrupo
+        final String CREATE_PRODUTO_GRUPO_TABLE = "CREATE TABLE " + ProdutoGrupoSchema.TABLE_NAME
+                + "("
+                + ProdutoGrupoSchema.KEY_ID + " INTEGER PRIMARY KEY, "
+                + ProdutoGrupoSchema.KEY_DESCRICAO + " TEXT "
+                + ");";
+        db.execSQL(CREATE_PRODUTO_GRUPO_TABLE);
+
+        // Create Table Produto
+        final String CREATE_PRODUTO_TABLE = "CREATE TABLE " + ProdutoSchema.TABLE_NAME
+                + "("
+                + ProdutoSchema.KEY_ID + " INTEGER PRIMARY KEY, "
+                + ProdutoSchema.KEY_PRODUTO_GRUPO_ID + " INTEGER, "
+                + ProdutoSchema.KEY_DESCRICAO_PRODUTO + " TEXT, "
+                + ProdutoSchema.KEY_PRECO_VENDA + " FLOAT, "
+                + ProdutoSchema.KEY_PRECO_VENDA + " FLOAT, "
+                + "FOREIGN KEY(" + ProdutoSchema.KEY_PRODUTO_GRUPO_ID + ") " + " REFERENCES " + ProdutoGrupoSchema.TABLE_NAME + "(" + ProdutoGrupoSchema.KEY_ID + ")"
+                + ");";
+        db.execSQL(CREATE_PRODUTO_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + PedidoItemSchema.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + PedidoSchema.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + ProdutoSchema.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + ProdutoGrupoSchema.TABLE_NAME);
         onCreate(db);
     }
 }

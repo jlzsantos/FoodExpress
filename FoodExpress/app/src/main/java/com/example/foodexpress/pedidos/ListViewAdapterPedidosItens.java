@@ -52,7 +52,7 @@ public class ListViewAdapterPedidosItens extends BaseAdapter {
         idPedidoItem.setText(String.valueOf(item.getIdPedidoItem()));
 
         TextView descricao = (TextView)view.findViewById(R.id.descricaoproduto);
-        descricao.setText(item.getProduto().getdescricaoProduto());
+        descricao.setText(item.getProduto().getDescricaoProduto());
 
         TextView precoVenda = (TextView)view.findViewById(R.id.precovenda_qtde);
         String preco_format = String.format("%.2f", item.getProduto().getPrecoVenda()); //String.valueOf(produto.getPrecoVenda());

@@ -8,6 +8,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
+import com.example.foodexpress.bancodados.PedidoHelper;
 import com.example.foodexpress.deliveryfood.R;
 import com.example.foodexpress.entidades.Pedido;
 import com.example.foodexpress.principal.ActivityBase;
@@ -16,7 +17,7 @@ import java.util.ArrayList;
 
 public class ListaPedidos extends ActivityBase implements AdapterView.OnItemClickListener, View.OnClickListener {
 
-    private PedidosHelper pedidosHelper;
+    private PedidoHelper pedidosHelper;
     private Button btnMenu;
     private ListView listViewPedidos;
     private ArrayList<Pedido> listaPedidos;
@@ -26,7 +27,7 @@ public class ListaPedidos extends ActivityBase implements AdapterView.OnItemClic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_pedidos);
 
-        pedidosHelper = new PedidosHelper(this);
+        pedidosHelper = new PedidoHelper(this);
 
         btnMenu = (Button)findViewById(R.id.btnMenu);
         btnMenu.setOnClickListener(this);

@@ -1,7 +1,6 @@
 package com.example.foodexpress.cardapio;
 
 import android.app.AlertDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,7 +16,7 @@ import com.example.foodexpress.entidades.Pedido;
 import com.example.foodexpress.entidades.PedidoItem;
 import com.example.foodexpress.entidades.Produto;
 import com.example.foodexpress.pedidos.ListaItensPedido;
-import com.example.foodexpress.pedidos.PedidosHelper;
+import com.example.foodexpress.bancodados.PedidoHelper;
 import com.example.foodexpress.principal.ActivityBase;
 
 
@@ -30,10 +29,10 @@ public class CardapioDetalhe extends ActivityBase implements View.OnClickListene
     private TextView tvProduto;
     private EditText etQtde;
     private ImageView imgProduto;
-    private int _idProduto;
+    private long _idProduto;
     private Produto _produto;
     private Pedido _pedido;
-    private PedidosHelper _pedidosHelper;
+    private PedidoHelper _pedidosHelper;
     private Comanda _comanda;
 
     @Override
@@ -41,7 +40,7 @@ public class CardapioDetalhe extends ActivityBase implements View.OnClickListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cardapio_detalhe);
 
-        _pedidosHelper = new PedidosHelper(this);
+        _pedidosHelper = new PedidoHelper(this);
 
         btnCancelar = (Button)findViewById(R.id.btnCancelar);
         btnCancelar.setOnClickListener(this);
@@ -58,12 +57,12 @@ public class CardapioDetalhe extends ActivityBase implements View.OnClickListene
         _produto = _comanda.getProduto();
         _idProduto = _produto.getIdProduto();
 
-        super.setTitle(_produto.getdescricaoProduto());
+        super.setTitle(_produto.getDescricaoProduto());
         tvIngredientes.setText(_produto.getIngredientes());
 
         String preco_format = String.format("%.2f", _produto.getPrecoVenda());
         preco_format = "R$ " + preco_format.replace(".", ",");
-        tvProduto.setText(_produto.getdescricaoProduto() + " - " + preco_format);
+        tvProduto.setText(_produto.getDescricaoProduto() + " - " + preco_format);
 
         if (_idProduto >= 1 && _idProduto <= 20) {
             imgProduto.setImageResource(R.drawable.pizza_144x144);

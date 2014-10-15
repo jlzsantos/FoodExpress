@@ -6,7 +6,7 @@ package com.example.foodexpress.bancodados.schema;
 public final class PedidoSchema {
 
     // Estrutura
-    public static final String TABLE_NAME = "Pedido";
+    public static final String TABLE_NAME = "pedido";
     public static final String KEY_ID = "id";
     public static final String KEY_DATE_TIME_ISSUE = "data_hora_emissao";
     public static final String KEY_STATUS_PEDIDO = "status_pedido";
