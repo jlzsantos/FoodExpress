@@ -134,18 +134,15 @@ public class Main extends ActivityBase implements View.OnClickListener {
         if (_sincronizarBancoExterno){
             try {
                 long idGrupo;
+                //_util.RetornaSimpleDialog("Iniciando sincronização...").show();
 
                 // Sincroniza Grupos
                 _produtoHelper.RemoveGruposAll();
                 ArrayList<ProdutoGrupo> grupos = new ArrayList<ProdutoGrupo>();
                 grupos.add(new ProdutoGrupo(1, "Pizzas"));
                 grupos.add(new ProdutoGrupo(2, "Massas"));
-                /*grupos.add(new ProdutoGrupo(3, "Sobremesas"));
+                grupos.add(new ProdutoGrupo(3, "Sobremesas"));
                 grupos.add(new ProdutoGrupo(4, "Bebidas"));
-*/
-                /*for (int i = 0; i < grupos.size(); i++) {
-                    _produtoHelper.AdicionaProdutoGrupo(grupos.get(i));
-                }*/
 
                 _produtoHelper.AdicionaProdutoGrupos(grupos);
 
@@ -156,7 +153,7 @@ public class Main extends ActivityBase implements View.OnClickListener {
                 idGrupo = 1; // Pizzas
                 produtos.add(new Produto(1, idGrupo, "Maguerita", 32.00f, "(Maguerita) Farinha de trigo, fermento biológico seco, açúcar, sal, azeite, ovos, molho de tomate, mussarela de búfala e manjericão"));
                 produtos.add(new Produto(2, idGrupo, "Quatro Queijos", 29.50f, "(Quatro Queijos) Farinha de trigo, fermento biológico seco, açúcar, sal, azeite, ovos, molho de tomate, mussarela de búfala e manjericão"));
-                /*produtos.add(new Produto(3, idGrupo, "Escarola", 33.00f, "(Escarola) Farinha de trigo, fermento biológico seco, açúcar, sal, azeite, ovos, molho de tomate, mussarela de búfala e manjericão"));
+                produtos.add(new Produto(3, idGrupo, "Escarola", 33.00f, "(Escarola) Farinha de trigo, fermento biológico seco, açúcar, sal, azeite, ovos, molho de tomate, mussarela de búfala e manjericão"));
                 produtos.add(new Produto(4, idGrupo, "Calabreza", 31.80f, "(Calabreza) Farinha de trigo, fermento biológico seco, açúcar, sal, azeite, ovos, molho de tomate, mussarela de búfala e manjericão"));
                 produtos.add(new Produto(5, idGrupo, "Mussarela", 29.00f, "(Mussarela) Farinha de trigo, fermento biológico seco, açúcar, sal, azeite, ovos, molho de tomate, mussarela de búfala e manjericão"));
                 produtos.add(new Produto(6, idGrupo, "Mineira", 34.00f, "(Mineira) Farinha de trigo, fermento biológico seco, açúcar, sal, azeite, ovos, molho de tomate, mussarela de búfala e manjericão"));
@@ -206,10 +203,8 @@ public class Main extends ActivityBase implements View.OnClickListener {
                 produtos.add(new Produto(46, idGrupo, "Fanta Uva 2L", 5.00f, "(Fanta Uva 2L) Água gaseificada, corantes, ..."));
                 produtos.add(new Produto(47, idGrupo, "Sprite 2L", 5.20f, "(Sprite 2L) Água gaseificada, corantes, ..."));
                 produtos.add(new Produto(48, idGrupo, "Sprite ligth 2L", 5.20f, "(Sprite ligth 2L) Água gaseificada, corantes, ..."));
-*/
-                for (int i = 0; i < produtos.size(); i++) {
-                    _produtoHelper.AdicionaProduto(produtos.get(i));
-                }
+
+                _produtoHelper.AdicionaProdutos(produtos);
 
             } catch (Exception ex) {
                 //AlertDialog.Builder dlg = _util.RetornaSimpleDialog("Não foi possível sincronizar com o banco de dados externo: " + ex.getMessage());

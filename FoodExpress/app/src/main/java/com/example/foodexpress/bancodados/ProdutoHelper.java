@@ -1,9 +1,11 @@
 package com.example.foodexpress.bancodados;
 
+import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteStatement;
 
 import com.example.foodexpress.bancodados.schema.ProdutoGrupoSchema;
@@ -33,21 +35,6 @@ public class ProdutoHelper {
         this._util = new Util(contexto);
     }
 
-    public long AdicionaProdutoGrupo(ProdutoGrupo grupo){
-        try{
-            SQLiteDatabase db = _dbHelper.getWritableDatabase();
-
-            ContentValues itemAdd = new ContentValues();
-            itemAdd.put(ProdutoGrupoSchema.KEY_DESCRICAO, grupo.getDescricaoGrupo());
-
-            return db.insert(ProdutoGrupoSchema.TABLE_NAME, null, itemAdd);
-
-        } catch (Exception ex) {
-            _util.RetornaSimpleDialog("Não foi possível adicionar o grupo de produtos: " + ex.getMessage()).show();
-            return 0;
-        }
-    }
-
     public void AdicionaProdutoGrupos(ArrayList<ProdutoGrupo> grupos){
         final String queryInsert = ProdutoGrupoSchema.getQueryInsertProdutoGrupo();
         SQLiteDatabase db = _dbHelper.getWritableDatabase();
@@ -56,37 +43,23 @@ public class ProdutoHelper {
             db.beginTransaction();
             SQLiteStatement stmt = db.compileStatement(queryInsert);
 
-            for(int i = 0; i < grupos.size(); i++){
+            for(ProdutoGrupo grup : grupos){
                 stmt.clearBindings();
-                stmt.bindString(1, grupos.get(i).getDescricaoGrupo());
+                stmt.bindString(1, grup.getDescricaoGrupo());
                 stmt.execute();
             }
 
             db.setTransactionSuccessful();
             db.endTransaction();
 
-        } catch (Exception ex) {
-            _util.RetornaSimpleDialog("Não foi possível adicionar o grupo de produtos: " + ex.getMessage()).show();
+        } catch (SQLiteException ex) {
+            AlertDialog.Builder dlg = new AlertDialog.Builder(_contexto);
+            dlg.setTitle("FoodExpress");
+            dlg.setNeutralButton("Ok", null);
+            dlg.setMessage(ex.getMessage());
+            dlg.show();
         } finally {
             db.close();
-        }
-    }
-
-    public void insertNormal(ArrayList<ProdutoGrupo> grupos){
-        try{
-            SQLiteDatabase db = _dbHelper.getWritableDatabase();
-
-            for(int i = 0; i < grupos.size(); i++){
-                ContentValues values = new ContentValues();
-                values.put(ProdutoGrupoSchema.KEY_DESCRICAO, grupos.get(i).getDescricaoGrupo());
-
-                db.insert(ProdutoGrupoSchema.TABLE_NAME, null, values);
-            }
-
-            db.close();
-
-        }catch(Exception e){
-            e.printStackTrace();
         }
     }
 
@@ -98,13 +71,44 @@ public class ProdutoHelper {
             itemAdd.put(ProdutoSchema.KEY_PRODUTO_GRUPO_ID, produto.getIdProdutoGrupo());
             itemAdd.put(ProdutoSchema.KEY_DESCRICAO_PRODUTO, produto.getDescricaoProduto());
             itemAdd.put(ProdutoSchema.KEY_PRECO_VENDA, produto.getPrecoVenda());
-            itemAdd.put(ProdutoSchema.KEY_PRECO_VENDA, produto.getPrecoVenda());
+            itemAdd.put(ProdutoSchema.KEY_INGREDIENTES, produto.getIngredientes());
 
             return db.insert(ProdutoSchema.TABLE_NAME, null, itemAdd);
 
         } catch (Exception ex) {
             _util.RetornaSimpleDialog("Não foi possível adicionar o produto: " + ex.getMessage()).show();
             return 0;
+        }
+    }
+
+    public void AdicionaProdutos(ArrayList<Produto> produtos){
+        final String queryInsert = ProdutoSchema.getQueryInsertProduto();
+        SQLiteDatabase db = _dbHelper.getWritableDatabase();
+        try{
+
+            db.beginTransaction();
+            SQLiteStatement stmt = db.compileStatement(queryInsert);
+
+            for(Produto prod : produtos){
+                stmt.clearBindings();
+                stmt.bindLong(1, prod.getIdProdutoGrupo());
+                stmt.bindString(2, prod.getDescricaoProduto());
+                stmt.bindDouble(3, prod.getPrecoVenda());
+                stmt.bindString(4, prod.getIngredientes());
+                stmt.execute();
+            }
+
+            db.setTransactionSuccessful();
+            db.endTransaction();
+
+        } catch (SQLiteException ex) {
+            AlertDialog.Builder dlg = new AlertDialog.Builder(_contexto);
+            dlg.setTitle("FoodExpress");
+            dlg.setNeutralButton("Ok", null);
+            dlg.setMessage(ex.getMessage());
+            dlg.show();
+        } finally {
+            db.close();
         }
     }
 
@@ -117,13 +121,14 @@ public class ProdutoHelper {
 
         try {
             if (cursor.moveToFirst()) {
-                long idGrupo = cursor.getLong(0);
-                String descricao = cursor.getString(1);
+                do {
+                    long idGrupo = cursor.getLong(0);
+                    String descricao = cursor.getString(1);
 
-                ProdutoGrupo grupo = new ProdutoGrupo(idGrupo, descricao);
-                grupos.add(grupo);
-
-            } while (cursor.moveToNext());
+                    ProdutoGrupo grupo = new ProdutoGrupo(idGrupo, descricao);
+                    grupos.add(grupo);
+                } while (cursor.moveToNext());
+            }
 
             Collections.sort(grupos);
 
@@ -144,14 +149,14 @@ public class ProdutoHelper {
 
         try {
             if (cursor.moveToFirst()) {
-
-                produto.setIdProduto(cursor.getLong(0));
-                produto.setIdProdutoGrupo(cursor.getLong(1));
-                produto.setDescricaoProduto(cursor.getString(2));
-                produto.setPrecoVenda(cursor.getFloat(3));
-                produto.setIngredientes(cursor.getString(4));
-
-            } while (cursor.moveToNext());
+                do {
+                    produto.setIdProduto(cursor.getLong(0));
+                    produto.setIdProdutoGrupo(cursor.getLong(1));
+                    produto.setDescricaoProduto(cursor.getString(2));
+                    produto.setPrecoVenda(cursor.getFloat(3));
+                    produto.setIngredientes(cursor.getString(4));
+                } while (cursor.moveToNext());
+            }
 
         } catch (Exception ex) {
             _util.RetornaSimpleDialog(_msgErroPesquisa + ex.getMessage()).show();

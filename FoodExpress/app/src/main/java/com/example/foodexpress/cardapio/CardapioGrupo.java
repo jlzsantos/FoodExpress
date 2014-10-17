@@ -2,7 +2,9 @@ package com.example.foodexpress.cardapio;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -46,7 +48,18 @@ public class CardapioGrupo extends ActivityBase implements OnItemClickListener, 
         _comanda = RetornaComanda();
 
         // Popula lista de grupos de produto para mostrar no cardápio
-        _listaProdutoGrupo = new ArrayList<ProdutoGrupo>();
+        //_listaProdutoGrupo = new ArrayList<ProdutoGrupo>();
+
+/*
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // Do something after 5s = 5000ms
+                Teste();
+            }
+        }, 5000);
+*/
         _listaProdutoGrupo = _produtoHelper.RetornaProdutoGrupos();
 
         //_listaProdutoGrupo.add(new ProdutoGrupo(1, "Pizzas"));
@@ -54,6 +67,16 @@ public class CardapioGrupo extends ActivityBase implements OnItemClickListener, 
         //_listaProdutoGrupo.add(new ProdutoGrupo(3, "Sobremesas"));
         //_listaProdutoGrupo.add(new ProdutoGrupo(4, "Bebidas"));
 
+
+        _listaCardapioGrupo = (ListView)findViewById(R.id.lvCardapioGrupo);
+        _listaCardapioGrupo.setAdapter(new ListViewAdapterCardapioGrupo(this, _listaProdutoGrupo));
+        _listaCardapioGrupo.setOnItemClickListener(this);
+
+        iniciaPedido();
+    }
+
+    public void Teste() {
+        _listaProdutoGrupo = _produtoHelper.RetornaProdutoGrupos();
 
         _listaCardapioGrupo = (ListView)findViewById(R.id.lvCardapioGrupo);
         _listaCardapioGrupo.setAdapter(new ListViewAdapterCardapioGrupo(this, _listaProdutoGrupo));

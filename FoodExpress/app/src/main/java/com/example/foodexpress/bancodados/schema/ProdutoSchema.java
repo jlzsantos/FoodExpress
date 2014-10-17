@@ -59,6 +59,17 @@ public class ProdutoSchema {
         return query;
     }
 
+    public static String getQueryInsertProduto(){
+        String query = "INSERT INTO " + TABLE_NAME
+                + " ("
+                + KEY_PRODUTO_GRUPO_ID + ", "
+                + KEY_DESCRICAO_PRODUTO + ", "
+                + KEY_PRECO_VENDA + ", "
+                + KEY_INGREDIENTES
+                + ") VALUES (?, ?, ?, ?);";
+        return query;
+    }
+
     public static String getQueryTruncateTable(){
         final String query = "DELETE FROM " + TABLE_NAME;
         return query;
