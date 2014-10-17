@@ -58,4 +58,9 @@ public class ProdutoSchema {
         final String query = String.format(str, id);
         return query;
     }
+
+    public static String getQueryTruncateTable(){
+        final String query = "DELETE FROM " + TABLE_NAME;
+        return query;
+    }
 }

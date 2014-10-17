@@ -12,7 +12,7 @@ import com.example.foodexpress.bancodados.schema.ProdutoSchema;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "FoodExpress";
-    private static int DATABASE_VERSION = 3;
+    private static int DATABASE_VERSION = 4;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -24,7 +24,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // Create Table Pedido
         final String CREATE_PEDIDO_TABLE = "CREATE TABLE " + PedidoSchema.TABLE_NAME
                 + "("
-                + PedidoSchema.KEY_ID + " INTEGER PRIMARY KEY, "
+                + PedidoSchema.KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + PedidoSchema.KEY_DATE_TIME_ISSUE + " DATE, "
                 + PedidoSchema.KEY_STATUS_PEDIDO + " INTEGER"
                 + ");";
@@ -33,7 +33,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // Create Table PedidoItem
         final String CREATE_PEDIDO_ITEM_TABLE = "CREATE TABLE " + PedidoItemSchema.TABLE_NAME
                 + "("
-                + PedidoItemSchema.KEY_ID + " INTEGER PRIMARY KEY, "
+                + PedidoItemSchema.KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + PedidoItemSchema.KEY_PEDIDO_ID + " INTEGER, "
                 + PedidoItemSchema.KEY_PRODUTO_ID + " INTEGER, "
                 + PedidoItemSchema.KEY_QTDE + " FLOAT, "
@@ -45,7 +45,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // Create Table ProdutoGrupo
         final String CREATE_PRODUTO_GRUPO_TABLE = "CREATE TABLE " + ProdutoGrupoSchema.TABLE_NAME
                 + "("
-                + ProdutoGrupoSchema.KEY_ID + " INTEGER PRIMARY KEY, "
+                + ProdutoGrupoSchema.KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + ProdutoGrupoSchema.KEY_DESCRICAO + " TEXT "
                 + ");";
         db.execSQL(CREATE_PRODUTO_GRUPO_TABLE);
@@ -53,10 +53,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // Create Table Produto
         final String CREATE_PRODUTO_TABLE = "CREATE TABLE " + ProdutoSchema.TABLE_NAME
                 + "("
-                + ProdutoSchema.KEY_ID + " INTEGER PRIMARY KEY, "
+                + ProdutoSchema.KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + ProdutoSchema.KEY_PRODUTO_GRUPO_ID + " INTEGER, "
                 + ProdutoSchema.KEY_DESCRICAO_PRODUTO + " TEXT, "
-                + ProdutoSchema.KEY_PRECO_VENDA + " FLOAT, "
                 + ProdutoSchema.KEY_PRECO_VENDA + " FLOAT, "
                 + "FOREIGN KEY(" + ProdutoSchema.KEY_PRODUTO_GRUPO_ID + ") " + " REFERENCES " + ProdutoGrupoSchema.TABLE_NAME + "(" + ProdutoGrupoSchema.KEY_ID + ")"
                 + ");";

@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteStatement;
 
 import com.example.foodexpress.bancodados.schema.ProdutoGrupoSchema;
 import com.example.foodexpress.bancodados.schema.ProdutoSchema;
@@ -11,6 +12,7 @@ import com.example.foodexpress.entidades.Produto;
 import com.example.foodexpress.entidades.ProdutoGrupo;
 import com.example.foodexpress.utils.Util;
 
+import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -43,6 +45,48 @@ public class ProdutoHelper {
         } catch (Exception ex) {
             _util.RetornaSimpleDialog("Não foi possível adicionar o grupo de produtos: " + ex.getMessage()).show();
             return 0;
+        }
+    }
+
+    public void AdicionaProdutoGrupos(ArrayList<ProdutoGrupo> grupos){
+        final String queryInsert = ProdutoGrupoSchema.getQueryInsertProdutoGrupo();
+        SQLiteDatabase db = _dbHelper.getWritableDatabase();
+        try{
+
+            db.beginTransaction();
+            SQLiteStatement stmt = db.compileStatement(queryInsert);
+
+            for(int i = 0; i < grupos.size(); i++){
+                stmt.clearBindings();
+                stmt.bindString(1, grupos.get(i).getDescricaoGrupo());
+                stmt.execute();
+            }
+
+            db.setTransactionSuccessful();
+            db.endTransaction();
+
+        } catch (Exception ex) {
+            _util.RetornaSimpleDialog("Não foi possível adicionar o grupo de produtos: " + ex.getMessage()).show();
+        } finally {
+            db.close();
+        }
+    }
+
+    public void insertNormal(ArrayList<ProdutoGrupo> grupos){
+        try{
+            SQLiteDatabase db = _dbHelper.getWritableDatabase();
+
+            for(int i = 0; i < grupos.size(); i++){
+                ContentValues values = new ContentValues();
+                values.put(ProdutoGrupoSchema.KEY_DESCRICAO, grupos.get(i).getDescricaoGrupo());
+
+                db.insert(ProdutoGrupoSchema.TABLE_NAME, null, values);
+            }
+
+            db.close();
+
+        }catch(Exception e){
+            e.printStackTrace();
         }
     }
 
@@ -145,5 +189,19 @@ public class ProdutoHelper {
             cursor.close();
             return produtos;
         }
+    }
+
+    public void RemoveGruposAll(){
+        final String query = ProdutoGrupoSchema.getQueryTruncateTable();
+        SQLiteDatabase db = _dbHelper.getWritableDatabase();
+        db.execSQL(query);
+        db.close();
+    }
+
+    public void RemoveProdutosAll(){
+        final String query = ProdutoSchema.getQueryTruncateTable();
+        SQLiteDatabase db = _dbHelper.getWritableDatabase();
+        db.execSQL(query);
+        db.close();
     }
 }

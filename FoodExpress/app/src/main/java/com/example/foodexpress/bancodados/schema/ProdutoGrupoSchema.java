@@ -33,4 +33,14 @@ public class ProdutoGrupoSchema {
         final String query = String.format(str, id);
         return query;
     }
+
+    public static String getQueryInsertProdutoGrupo(){
+        String query = "INSERT INTO " + TABLE_NAME + " (" + KEY_DESCRICAO  + ") VALUES (?);";
+        return query;
+    }
+
+    public static String getQueryTruncateTable(){
+        final String query = "DELETE FROM " + TABLE_NAME;
+        return query;
+    }
 }
