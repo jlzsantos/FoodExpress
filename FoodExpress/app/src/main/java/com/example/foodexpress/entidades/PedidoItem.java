@@ -8,16 +8,16 @@ public class PedidoItem implements Serializable, Comparable<PedidoItem> {
     private long idPedidoItem;
     private long idPedido;
     private long idProduto;
-    private float qtde;
-    private float vlrUnit;
-    private float vlrTotal;
+    private double qtde;
+    private double vlrUnit;
+    private double vlrTotal;
     private Produto produto;
 
     public PedidoItem(){
         super();
     }
 
-    public PedidoItem(long idPedido, long idPedidoItem, long idProduto, float qtde, float vlrUnit, Produto produto){
+    public PedidoItem(long idPedido, long idPedidoItem, long idProduto, double qtde, double vlrUnit, Produto produto){
         super();
 
         UUID guid;
@@ -49,27 +49,27 @@ public class PedidoItem implements Serializable, Comparable<PedidoItem> {
         this.idPedido = idPedido;
     }
 
-    public float getQtde() {
+    public double getQtde() {
         return qtde;
     }
 
-    public void setQtde(float qtde) {
+    public void setQtde(double qtde) {
         this.qtde = qtde;
     }
 
-    public float getVlrUnit() {
+    public double getVlrUnit() {
         return vlrUnit;
     }
 
-    public void setVlrUnit(float vlrUnit) {
+    public void setVlrUnit(double vlrUnit) {
         this.vlrUnit = vlrUnit;
     }
 
-    public float getVlrTotal() {
+    public double getVlrTotal() {
         return vlrTotal;
     }
 
-    public void setVlrTotal(float vlrTotal) {
+    public void setVlrTotal(double vlrTotal) {
         this.vlrTotal = vlrTotal;
     }
 

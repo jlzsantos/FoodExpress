@@ -45,37 +45,8 @@ public class CardapioGrupo extends ActivityBase implements OnItemClickListener, 
 
         _pedidosHelper = new PedidoHelper(this);
         _produtoHelper = new ProdutoHelper(this);
+
         _comanda = RetornaComanda();
-
-        // Popula lista de grupos de produto para mostrar no cardápio
-        //_listaProdutoGrupo = new ArrayList<ProdutoGrupo>();
-
-/*
-        final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                // Do something after 5s = 5000ms
-                Teste();
-            }
-        }, 5000);
-*/
-        _listaProdutoGrupo = _produtoHelper.RetornaProdutoGrupos();
-
-        //_listaProdutoGrupo.add(new ProdutoGrupo(1, "Pizzas"));
-        //_listaProdutoGrupo.add(new ProdutoGrupo(2, "Massas"));
-        //_listaProdutoGrupo.add(new ProdutoGrupo(3, "Sobremesas"));
-        //_listaProdutoGrupo.add(new ProdutoGrupo(4, "Bebidas"));
-
-
-        _listaCardapioGrupo = (ListView)findViewById(R.id.lvCardapioGrupo);
-        _listaCardapioGrupo.setAdapter(new ListViewAdapterCardapioGrupo(this, _listaProdutoGrupo));
-        _listaCardapioGrupo.setOnItemClickListener(this);
-
-        iniciaPedido();
-    }
-
-    public void Teste() {
         _listaProdutoGrupo = _produtoHelper.RetornaProdutoGrupos();
 
         _listaCardapioGrupo = (ListView)findViewById(R.id.lvCardapioGrupo);

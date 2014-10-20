@@ -133,7 +133,7 @@ public class CardapioDetalhe extends ActivityBase implements View.OnClickListene
                 */
 
                 //_pedidosHelper.RemovePedidoItemPorIdPedido(_comanda.getIdPedido());
-                adicionaItemPedido(Float.valueOf(qtde));
+                adicionaItemPedido(Double.valueOf(qtde));
                 _comanda.setQtdeItem(Float.valueOf(qtde));
                 EnviaComanda(getApplicationContext(), ListaItensPedido.class, _comanda);
 
@@ -141,7 +141,7 @@ public class CardapioDetalhe extends ActivityBase implements View.OnClickListene
         }
     }
 
-    private void adicionaItemPedido(float qtde)
+    private void adicionaItemPedido(double qtde)
     {
         PedidoItem novoItem = new PedidoItem(_comanda.getIdPedido(), 0, _produto.getIdProduto(), qtde, _produto.getPrecoVenda(), _produto);
         _pedidosHelper.AdicionaPedidoItem(novoItem);

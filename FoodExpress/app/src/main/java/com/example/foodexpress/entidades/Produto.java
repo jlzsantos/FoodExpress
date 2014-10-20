@@ -6,14 +6,14 @@ public class Produto implements Serializable, Comparable<Produto> {
     private long idProduto;
     private long idProdutoGrupo;
     private String descricaoProduto;
-    private float precoVenda;
+    private double precoVenda;
     private String ingredientes;
 
     public Produto(){
         super();
     }
     
-    public Produto(long idProduto, long idGrupo, String descricao, float precoVenda, String ingredientes){
+    public Produto(long idProduto, long idGrupo, String descricao, double precoVenda, String ingredientes){
         super();
         
         this.idProduto = idProduto;
@@ -47,11 +47,11 @@ public class Produto implements Serializable, Comparable<Produto> {
         this.descricaoProduto = descricaoProduto;
     }
 
-    public float getPrecoVenda() {
+    public double getPrecoVenda() {
         return precoVenda;
     }
 
-    public void setPrecoVenda(float precoVenda) {
+    public void setPrecoVenda(double precoVenda) {
         this.precoVenda = precoVenda;
     }
 

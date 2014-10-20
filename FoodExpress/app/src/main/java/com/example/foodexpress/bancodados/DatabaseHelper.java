@@ -12,7 +12,7 @@ import com.example.foodexpress.bancodados.schema.ProdutoSchema;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "FoodExpress";
-    private static int DATABASE_VERSION = 4;
+    private static int DATABASE_VERSION = 5;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -56,7 +56,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + ProdutoSchema.KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + ProdutoSchema.KEY_PRODUTO_GRUPO_ID + " INTEGER, "
                 + ProdutoSchema.KEY_DESCRICAO_PRODUTO + " TEXT, "
-                + ProdutoSchema.KEY_PRECO_VENDA + " FLOAT, "
+                + ProdutoSchema.KEY_PRECO_VENDA + " DOUBLE, "
+                + ProdutoSchema.KEY_INGREDIENTES + " TEXT, "
                 + "FOREIGN KEY(" + ProdutoSchema.KEY_PRODUTO_GRUPO_ID + ") " + " REFERENCES " + ProdutoGrupoSchema.TABLE_NAME + "(" + ProdutoGrupoSchema.KEY_ID + ")"
                 + ");";
         db.execSQL(CREATE_PRODUTO_TABLE);

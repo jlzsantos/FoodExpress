@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.foodexpress.bancodados.ProdutoHelper;
 import com.example.foodexpress.deliveryfood.R;
 import com.example.foodexpress.entidades.Comanda;
 import com.example.foodexpress.entidades.Produto;
@@ -26,6 +27,7 @@ public class CardapioProduto extends ActivityBase implements AdapterView.OnItemC
     private ListView _listaCardapioProduto;
     private ArrayList<Produto> _listaProdutos;
     private Comanda _comanda;
+    private ProdutoHelper _produtoHelper;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,8 +50,11 @@ public class CardapioProduto extends ActivityBase implements AdapterView.OnItemC
         _comanda = RetornaComanda();
         _idGrupo = _comanda.getIdGrupo();
 
+        _produtoHelper = new ProdutoHelper(getApplicationContext());
         _listaProdutos = new ArrayList<Produto>();
+        _listaProdutos = _produtoHelper.RetornaProdutoPorGrupoId(_idGrupo);
 
+        /*
         switch (_idGrupo){
             case 1:     // Pizzas
                 _listaProdutos = RetornaListaPizzas(1);
@@ -71,6 +76,7 @@ public class CardapioProduto extends ActivityBase implements AdapterView.OnItemC
                 super.setTitle("Bebidas");
                 break;
         }
+        */
 
         _listaCardapioProduto = (ListView)findViewById(R.id.lvCardapioProduto);
         _listaCardapioProduto.setAdapter(new ListViewAdapterCardapioProduto(this, _listaProdutos));

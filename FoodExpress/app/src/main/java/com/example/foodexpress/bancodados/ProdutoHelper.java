@@ -175,16 +175,17 @@ public class ProdutoHelper {
 
         try {
             if (cursor.moveToFirst()) {
-                long idProduto = cursor.getLong(0);
-                long idGrupo = cursor.getLong(1);
-                String descricao = cursor.getString(2);
-                float precoVenda = cursor.getFloat(3);
-                String ingredientes = cursor.getString(4);
+                do {
+                    long idProduto = cursor.getLong(0);
+                    long idGrupo = cursor.getLong(1);
+                    String descricao = cursor.getString(2);
+                    float precoVenda = cursor.getFloat(3);
+                    String ingredientes = cursor.getString(4);
 
-                Produto produto = new Produto(idProduto, idGrupo, descricao, precoVenda, ingredientes);
-                produtos.add(produto);
-
-            } while (cursor.moveToNext());
+                    Produto produto = new Produto(idProduto, idGrupo, descricao, precoVenda, ingredientes);
+                    produtos.add(produto);
+                } while (cursor.moveToNext());
+            }
 
             Collections.sort(produtos);
 
