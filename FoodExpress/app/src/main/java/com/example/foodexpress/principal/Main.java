@@ -1,6 +1,5 @@
 package com.example.foodexpress.principal;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,7 +18,6 @@ import com.example.foodexpress.pedidos.ListaPedidos;
 import com.example.foodexpress.utils.Util;
 
 import java.util.ArrayList;
-
 
 public class Main extends ActivityBase implements View.OnClickListener {
 
@@ -130,6 +128,7 @@ public class Main extends ActivityBase implements View.OnClickListener {
         super.onDestroy();
     }
 
+    //region >> Sincroniza com banco externo <<
     private void sincronizaComBancoExterno(){
         if (_sincronizarBancoExterno){
             try {
@@ -207,8 +206,6 @@ public class Main extends ActivityBase implements View.OnClickListener {
                 _produtoHelper.AdicionaProdutos(produtos);
 
             } catch (Exception ex) {
-                //AlertDialog.Builder dlg = _util.RetornaSimpleDialog("Não foi possível sincronizar com o banco de dados externo: " + ex.getMessage());
-
                 AlertDialog.Builder dlg = new AlertDialog.Builder(this);
                 dlg.setTitle("FoodExpress");
                 dlg.setNeutralButton("Ok", null);
@@ -217,4 +214,5 @@ public class Main extends ActivityBase implements View.OnClickListener {
             }
         }
     }
+    //endregion
 }

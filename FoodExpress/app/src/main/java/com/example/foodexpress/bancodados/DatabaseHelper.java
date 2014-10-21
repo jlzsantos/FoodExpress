@@ -12,7 +12,7 @@ import com.example.foodexpress.bancodados.schema.ProdutoSchema;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "FoodExpress";
-    private static int DATABASE_VERSION = 5;
+    private static int DATABASE_VERSION = 7;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -25,7 +25,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         final String CREATE_PEDIDO_TABLE = "CREATE TABLE " + PedidoSchema.TABLE_NAME
                 + "("
                 + PedidoSchema.KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + PedidoSchema.KEY_DATE_TIME_ISSUE + " DATE, "
+                + PedidoSchema.KEY_DATE_TIME_ISSUE + " DATETIME DEFAULT CURRENT_TIMESTAMP, "
                 + PedidoSchema.KEY_STATUS_PEDIDO + " INTEGER"
                 + ");";
         db.execSQL(CREATE_PEDIDO_TABLE);

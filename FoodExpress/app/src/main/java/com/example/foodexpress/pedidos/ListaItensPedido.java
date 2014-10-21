@@ -1,6 +1,5 @@
 package com.example.foodexpress.pedidos;
 
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -22,7 +21,6 @@ import java.util.ArrayList;
 
 public class ListaItensPedido extends ActivityBase implements AdapterView.OnItemClickListener, View.OnClickListener {
 
-    private static final int request_code = 5;
     private PedidoItem item;
     private Button btnComprarMais;
     private Button btnFinalizar;
@@ -46,11 +44,7 @@ public class ListaItensPedido extends ActivityBase implements AdapterView.OnItem
 
         Bundle extras = getIntent().getExtras();
         if (extras == null) {
-            AlertDialog.Builder dlg = new AlertDialog.Builder(this);
-            dlg.setTitle("FoodExpress");
-            dlg.setNeutralButton("Ok", null);
-            dlg.setMessage("Não foi possível listar os itens do pedido.");
-            dlg.show();
+            showMensagem("Não foi possível listar os itens do pedido.");
             return;
         }
 
@@ -60,20 +54,9 @@ public class ListaItensPedido extends ActivityBase implements AdapterView.OnItem
         _pedidoItens = new ArrayList<PedidoItem>();
         _pedidoItens = _pedidosHelper.RetornaPedidoItensPorIdPedido(_comanda.getIdPedido());
 
-        //_pedidoItens.add(new PedidoItem(2, 0, 1, Float.valueOf(2), Float.valueOf(32), _comanda.getProduto()));
-
         _listaPedidoItens = (ListView)findViewById(R.id.lvPedidosItens);
         _listaPedidoItens.setAdapter(new ListViewAdapterPedidosItens(this, _pedidoItens));
         _listaPedidoItens.setOnItemClickListener(this);
-
-        /*
-        String msg = item.getProduto().getdescricaoProduto() + " - " + Integer.toString(item.getProduto().getIdProduto()) + " - " + Float.toString(item.getQtde());
-        AlertDialog.Builder dlg = new AlertDialog.Builder(this);
-        dlg.setTitle("FoodExpress");
-        dlg.setNeutralButton("Ok", null);
-        dlg.setMessage(msg);
-        dlg.show();
-        */
     }
 
     @Override
@@ -101,15 +84,15 @@ public class ListaItensPedido extends ActivityBase implements AdapterView.OnItem
 
         switch (idControle){
             case R.id.btnComprarMais:
-                Intent i = new Intent(getApplicationContext(), CardapioGrupo.class);
-                i.putExtra("Pedido", 1);
-                startActivity(i);
+                _comanda.setIniciarPedido(false);
+                EnviaComanda(getApplicationContext(), CardapioGrupo.class, _comanda);
                 break;
 
             case R.id.btnFinalizar:
-                Intent fi = new Intent(getApplicationContext(), FinalizarPedido.class);
-                fi.putExtra("Pedido", (java.io.Serializable)pedido);
-                startActivity(fi);
+                //Intent fi = new Intent(getApplicationContext(), FinalizarPedido.class);
+                //fi.putExtra("Pedido", (java.io.Serializable)pedido);
+                //startActivity(fi);
+                EnviaComanda(getApplicationContext(), FinalizarPedido.class, _comanda);
                 break;
         }
     }

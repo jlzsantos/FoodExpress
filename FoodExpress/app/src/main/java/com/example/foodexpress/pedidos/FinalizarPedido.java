@@ -15,9 +15,11 @@ import android.widget.TextView;
 
 import com.example.foodexpress.bancodados.PedidoHelper;
 import com.example.foodexpress.deliveryfood.R;
+import com.example.foodexpress.entidades.Comanda;
 import com.example.foodexpress.entidades.Pedido;
 import com.example.foodexpress.principal.ActivityBase;
 import com.example.foodexpress.principal.Main;
+import com.example.foodexpress.utils.Util;
 
 public class FinalizarPedido extends ActivityBase implements View.OnClickListener {
 
@@ -28,8 +30,12 @@ public class FinalizarPedido extends ActivityBase implements View.OnClickListene
     private TextView tvTotalPedido;
     private TextView tvCepInformadoLabel;
     private TextView tvCepInformado;
-    private Pedido pedido;
-    private String cepInformado;
+
+    private final double _taxaEntrega = 5.00;
+    private Pedido _pedido;
+    private String _cepInformado;
+    private Comanda _comanda;
+    private PedidoHelper _pedidoHelper;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -41,7 +47,9 @@ public class FinalizarPedido extends ActivityBase implements View.OnClickListene
 
         rbEntregaDomicilio = (RadioButton)findViewById(R.id.rbEntregaDomicilio);
         rbEntregaDomicilio.setChecked(false);
-        rbEntregaDomicilio.setText("Entrega domicílio (+R$ 5,00)");
+        String txEntrega_format = String.format("%.2f", _taxaEntrega);
+        txEntrega_format = " (+R$ " + txEntrega_format.replace(".", ",") + ")";
+        rbEntregaDomicilio.setText("Entrega domicílio" + txEntrega_format);
 
         btnFecharPedido = (Button)findViewById(R.id.btnFecharPedido);
         btnFecharPedido.setOnClickListener(this);
@@ -56,24 +64,13 @@ public class FinalizarPedido extends ActivityBase implements View.OnClickListene
 
         showCEP(false);
 
-        Bundle extras = getIntent().getExtras();
-        if (extras == null) {
-            AlertDialog.Builder dlg = new AlertDialog.Builder(this);
-            dlg.setTitle("FoodExpress");
-            dlg.setNeutralButton("Ok", null);
-            dlg.setMessage("Pedido inválido. Não será possível finalizar.");
-            dlg.show();
-            return;
-        }
-
-        pedido = (Pedido)extras.getSerializable("Pedido");
+        _pedidoHelper = new PedidoHelper(getApplicationContext());
+        _comanda = RetornaComanda();
+        _pedido = _pedidoHelper.RetornaPedidoPorId(_comanda.getIdPedido());
 
         tvTotalPedido = (TextView)findViewById(R.id.tvTotalPedido);
-        String total_format = String.format("%.2f", pedido.getVlrTotalPedido());
-        total_format = "R$ " + total_format.replace(".", ",");
-        tvTotalPedido.setText(total_format);
+        setTotalPedido(_pedido.getVlrTotalPedido());
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -93,6 +90,12 @@ public class FinalizarPedido extends ActivityBase implements View.OnClickListene
         }
         return super.onOptionsItemSelected(item);
     }
+
+    private void setTotalPedido(double valor){
+        String total_format = String.format("%.2f", valor);
+        total_format = "R$ " + total_format.replace(".", ",");
+        tvTotalPedido.setText(total_format);
+    }
     
     private void finalizaPedido() {
 
@@ -108,9 +111,10 @@ public class FinalizarPedido extends ActivityBase implements View.OnClickListene
         }
 
         if (rbRetiraBalcao.isChecked()) {
-            showMensagem("Pedido finalizado com sucesso. Acompanhe seu pedido através da opção Pedidos no menu.", i);
+            alteraStatusPedido();
+            showMensagemRetornaMenu("Pedido finalizado com sucesso. Acompanhe seu pedido através da opção Pedidos no menu.", i);
         } else if (rbEntregaDomicilio.isChecked()) {
-            if (cepInformado.equals("")) {
+            if (_cepInformado.equals("")) {
                 AlertDialog.Builder dlg = new AlertDialog.Builder(this);
                 dlg.setTitle("FoodExpress");
                 dlg.setNeutralButton("Ok", null);
@@ -118,16 +122,14 @@ public class FinalizarPedido extends ActivityBase implements View.OnClickListene
                 dlg.show();
                 getCEP();
             } else {
-                showMensagem("Pedido finalizado com sucesso. Acompanhe seu pedido através da opção Pedidos no menu.", i);
+                alteraStatusPedido();
+                showMensagemRetornaMenu("Pedido finalizado com sucesso. Acompanhe seu pedido através da opção Pedidos no menu.", i);
             }
         }
     }
 
-    private boolean adicionaPedido() {
-        PedidoHelper pHelper = new PedidoHelper(this);
-        long idPedido = pHelper.AdicionaPedido(pedido);
-
-        return (idPedido > 0);
+    private void alteraStatusPedido() {
+        _pedidoHelper.AlteraPedidoStatus(_pedido.getIdPedido(), 1);  // Fechado
     }
 
     private void getCEP() {
@@ -140,16 +142,18 @@ public class FinalizarPedido extends ActivityBase implements View.OnClickListene
 
             public void onClick(DialogInterface di, int i) {
                 final String cep = text.getText().toString();
-                cepInformado = cep;
-                //tvCepInformado.setText("CEP informado: " + cepInformado);
+                _cepInformado = cep;
                 showCEP(true);
             }
         });
         builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
 
             public void onClick(DialogInterface di, int i) {
-                cepInformado = "";
+                _cepInformado = "";
                 showCEP(false);
+                rbRetiraBalcao.setChecked(true);
+                rbEntregaDomicilio.setChecked(false);
+                setTotalPedido(_pedido.getVlrTotalPedido());
             }
         });
         builder.create().show();
@@ -159,31 +163,13 @@ public class FinalizarPedido extends ActivityBase implements View.OnClickListene
         if (visible) {
             tvCepInformadoLabel.setVisibility(View.VISIBLE);
             tvCepInformado.setVisibility(View.VISIBLE);
-            tvCepInformado.setText(cepInformado);
+            tvCepInformado.setText(_cepInformado);
         } else {
             tvCepInformadoLabel.setVisibility(View.INVISIBLE);
             tvCepInformado.setVisibility(View.INVISIBLE);
             tvCepInformado.setText("");
         }
     }
-
-    /*
-    private void showMensagem(String msg, final Intent atividade) {
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        final TextView viewT = new TextView(this);
-
-        builder.setTitle("FoodExpress").setMessage(msg).setView(viewT);
-        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-
-            public void onClick(DialogInterface di, int i) {
-                startActivity(atividade);
-                finishAll("com.example.foodexpress.principal.Main");
-            }
-        });
-        builder.create().show();
-    }
-    */
 
     public void onRadioButtonClicked(View view) {
         // Is the button now checked?
@@ -194,12 +180,14 @@ public class FinalizarPedido extends ActivityBase implements View.OnClickListene
             case R.id.rbRetiraBalcao:
                 if (checked) {
                     rbEntregaDomicilio.setChecked(false);
+                    setTotalPedido(_pedido.getVlrTotalPedido());
                     showCEP(false);
                 }
                 break;
             case R.id.rbEntregaDomicilio:
                 if (checked) {
                     rbRetiraBalcao.setChecked(false);
+                    setTotalPedido(_pedido.getVlrTotalPedido() + _taxaEntrega);
                     getCEP();
                 }
                 break;

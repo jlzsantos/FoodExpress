@@ -28,7 +28,7 @@
         android:background="@color/background_layout"
         >
         <Button
-            android:id="@+id/btnCancelar"
+            android:id="@+id/btnMenu"
             android:text="@string/menu"
             android:background="@color/background_botao"
             android:textColor="@color/fonte_botao_cancelar"

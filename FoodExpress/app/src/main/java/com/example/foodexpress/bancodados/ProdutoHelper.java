@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteStatement;
 
+import com.example.foodexpress.bancodados.schema.PedidoItemSchema;
 import com.example.foodexpress.bancodados.schema.ProdutoGrupoSchema;
 import com.example.foodexpress.bancodados.schema.ProdutoSchema;
 import com.example.foodexpress.entidades.Produto;
@@ -32,13 +33,12 @@ public class ProdutoHelper {
         super();
         this._contexto = contexto;
         this._dbHelper = new DatabaseHelper(contexto);
-        this._util = new Util(contexto);
     }
 
     public void AdicionaProdutoGrupos(ArrayList<ProdutoGrupo> grupos){
         final String queryInsert = ProdutoGrupoSchema.getQueryInsertProdutoGrupo();
         SQLiteDatabase db = _dbHelper.getWritableDatabase();
-        try{
+        try {
 
             db.beginTransaction();
             SQLiteStatement stmt = db.compileStatement(queryInsert);
@@ -53,18 +53,14 @@ public class ProdutoHelper {
             db.endTransaction();
 
         } catch (SQLiteException ex) {
-            AlertDialog.Builder dlg = new AlertDialog.Builder(_contexto);
-            dlg.setTitle("FoodExpress");
-            dlg.setNeutralButton("Ok", null);
-            dlg.setMessage(ex.getMessage());
-            dlg.show();
+            _util.showMensagem("Não foi possível adicionar o grupo: " + ex.getMessage());
         } finally {
             db.close();
         }
     }
 
     public long AdicionaProduto(Produto produto){
-        try{
+        try {
             SQLiteDatabase db = _dbHelper.getWritableDatabase();
 
             ContentValues itemAdd = new ContentValues();
@@ -76,7 +72,7 @@ public class ProdutoHelper {
             return db.insert(ProdutoSchema.TABLE_NAME, null, itemAdd);
 
         } catch (Exception ex) {
-            _util.RetornaSimpleDialog("Não foi possível adicionar o produto: " + ex.getMessage()).show();
+            _util.showMensagem("Não foi possível adicionar o produto: " + ex.getMessage());
             return 0;
         }
     }
@@ -84,7 +80,7 @@ public class ProdutoHelper {
     public void AdicionaProdutos(ArrayList<Produto> produtos){
         final String queryInsert = ProdutoSchema.getQueryInsertProduto();
         SQLiteDatabase db = _dbHelper.getWritableDatabase();
-        try{
+        try {
 
             db.beginTransaction();
             SQLiteStatement stmt = db.compileStatement(queryInsert);
@@ -102,11 +98,7 @@ public class ProdutoHelper {
             db.endTransaction();
 
         } catch (SQLiteException ex) {
-            AlertDialog.Builder dlg = new AlertDialog.Builder(_contexto);
-            dlg.setTitle("FoodExpress");
-            dlg.setNeutralButton("Ok", null);
-            dlg.setMessage(ex.getMessage());
-            dlg.show();
+            _util.showMensagem("Não foi possível adicionar a lista de produtos: " + ex.getMessage());
         } finally {
             db.close();
         }
@@ -133,7 +125,7 @@ public class ProdutoHelper {
             Collections.sort(grupos);
 
         } catch (Exception ex) {
-            _util.RetornaSimpleDialog(_msgErroPesquisa + ex.getMessage()).show();
+            _util.showMensagem(_msgErroPesquisa + ex.getMessage());
         } finally {
             cursor.close();
             return grupos;
@@ -159,7 +151,7 @@ public class ProdutoHelper {
             }
 
         } catch (Exception ex) {
-            _util.RetornaSimpleDialog(_msgErroPesquisa + ex.getMessage()).show();
+            _util.showMensagem(_msgErroPesquisa + ex.getMessage());
         } finally {
             cursor.close();
             return produto;
@@ -190,24 +182,49 @@ public class ProdutoHelper {
             Collections.sort(produtos);
 
         } catch (Exception ex) {
-            _util.RetornaSimpleDialog(_msgErroPesquisa + ex.getMessage()).show();
+            _util.showMensagem(_msgErroPesquisa + ex.getMessage());
         } finally {
             cursor.close();
             return produtos;
         }
     }
 
+    public void RemovePedidoItensPorIdPedido(long idPedido){
+        SQLiteDatabase db = _dbHelper.getWritableDatabase();
+        try {
+            db.delete(PedidoItemSchema.TABLE_NAME, PedidoItemSchema.KEY_PEDIDO_ID + " = ?",
+                    new String[] { String.valueOf(idPedido) });
+
+        } catch (SQLiteException ex) {
+            _util.showMensagem("Não foi possível remover os itens do pedido: " + ex.getMessage());
+        } finally {
+            db.close();
+        }
+    }
+
     public void RemoveGruposAll(){
         final String query = ProdutoGrupoSchema.getQueryTruncateTable();
         SQLiteDatabase db = _dbHelper.getWritableDatabase();
-        db.execSQL(query);
-        db.close();
+
+        try {
+            db.execSQL(query);
+        } catch (SQLiteException ex) {
+            _util.showMensagem("Não foi possível remover os grupos de produtos: " + ex.getMessage());
+        } finally {
+            db.close();
+        }
     }
 
     public void RemoveProdutosAll(){
         final String query = ProdutoSchema.getQueryTruncateTable();
         SQLiteDatabase db = _dbHelper.getWritableDatabase();
-        db.execSQL(query);
-        db.close();
+
+        try {
+            db.execSQL(query);
+        } catch (SQLiteException ex) {
+            _util.showMensagem("Não foi possível remover os produtos: " + ex.getMessage());
+        } finally {
+            db.close();
+        }
     }
 }

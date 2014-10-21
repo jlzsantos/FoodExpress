@@ -56,14 +56,14 @@ public class ActivityBase extends Activity {
 
         Bundle extras = getIntent().getExtras();
         if (extras == null) {
-            showMensagem("Comanda inválida.");
+            showMensagemRetornaMenu("Comanda inválida.");
             return null;
         }
 
         comanda = (Comanda)extras.getSerializable("Comanda");
 
         if (comanda == null) {
-            showMensagem("Comanda inválida.");
+            showMensagemRetornaMenu("Comanda inválida.");
             return null;
         }
 
@@ -76,7 +76,14 @@ public class ActivityBase extends Activity {
         startActivity(i);
     }
 
-    protected void showMensagem(String msg, final Intent atividade) {
+    public void showMensagem(String msg) {
+        AlertDialog.Builder dlg = new AlertDialog.Builder(this);
+        dlg.setTitle("FoodExpress");
+        dlg.setNeutralButton("Ok", null);
+        dlg.setMessage(msg);
+    }
+
+    protected void showMensagemRetornaMenu(String msg, final Intent atividade) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         final TextView viewT = new TextView(this);
@@ -92,7 +99,7 @@ public class ActivityBase extends Activity {
         builder.create().show();
     }
 
-    protected void showMensagem(String msg) {
+    protected void showMensagemRetornaMenu(String msg) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         final TextView viewT = new TextView(this);

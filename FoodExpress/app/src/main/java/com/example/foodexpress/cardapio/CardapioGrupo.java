@@ -2,24 +2,22 @@ package com.example.foodexpress.cardapio;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TextView;
 
+import com.example.foodexpress.bancodados.PedidoHelper;
 import com.example.foodexpress.bancodados.ProdutoHelper;
 import com.example.foodexpress.deliveryfood.R;
 import com.example.foodexpress.entidades.Comanda;
 import com.example.foodexpress.entidades.Pedido;
 import com.example.foodexpress.entidades.ProdutoGrupo;
-import com.example.foodexpress.bancodados.PedidoHelper;
 import com.example.foodexpress.principal.ActivityBase;
 
 import java.util.ArrayList;
@@ -27,8 +25,7 @@ import java.util.Date;
 
 public class CardapioGrupo extends ActivityBase implements OnItemClickListener, View.OnClickListener {
 
-    private static final int request_code = 5;
-    private Button btnCancelar;
+    private Button btnMenu;
     private ListView _listaCardapioGrupo;
     private ArrayList<ProdutoGrupo> _listaProdutoGrupo;
     private PedidoHelper _pedidosHelper;
@@ -40,8 +37,8 @@ public class CardapioGrupo extends ActivityBase implements OnItemClickListener, 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cardapio_grupo);
 
-        btnCancelar = (Button)findViewById(R.id.btnCancelar);
-        btnCancelar.setOnClickListener(this);
+        btnMenu = (Button)findViewById(R.id.btnMenu);
+        btnMenu.setOnClickListener(this);
 
         _pedidosHelper = new PedidoHelper(this);
         _produtoHelper = new ProdutoHelper(this);
@@ -53,7 +50,9 @@ public class CardapioGrupo extends ActivityBase implements OnItemClickListener, 
         _listaCardapioGrupo.setAdapter(new ListViewAdapterCardapioGrupo(this, _listaProdutoGrupo));
         _listaCardapioGrupo.setOnItemClickListener(this);
 
-        iniciaPedido();
+        if (_comanda.isIniciarPedido()) {
+            iniciaPedido();
+        }
     }
 
     @Override
@@ -80,8 +79,8 @@ public class CardapioGrupo extends ActivityBase implements OnItemClickListener, 
         int idControle = view.getId();
 
         switch (idControle){
-            case R.id.btnCancelar:
-                finish();
+            case R.id.btnMenu:
+                finishAll("com.example.foodexpress.principal.Main");
                 break;
         }
     }
@@ -100,12 +99,6 @@ public class CardapioGrupo extends ActivityBase implements OnItemClickListener, 
 
         _comanda.setIdGrupo(Integer.parseInt(idGrupo));
         EnviaComanda(getApplicationContext(), CardapioProduto.class, _comanda);
-
-        /*
-        Intent i = new Intent(getApplicationContext(), CardapioProduto.class);
-        i.putExtra("Comanda", _comanda);
-        startActivity(i);
-        */
     }
 
     private void iniciaPedido(){
@@ -114,30 +107,34 @@ public class CardapioGrupo extends ActivityBase implements OnItemClickListener, 
 
         if (pedidos != null && pedidos.size() > 0) {
 
+            final long idPedido = pedidos.get(pedidos.size()-1).getIdPedido();
+
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage("Existe um pedido aberto. Você deseja manter os itens ou começar um novo pedido?")
                     .setTitle("FoodExpress")
                     .setCancelable(false)
                     .setPositiveButton("Manter", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            // Continua pedido que está aberto
-                            _comanda.setIdPedido(pedidos.get(pedidos.size()-1).getIdPedido());
+                        // Continua pedido que está aberto
+                        _comanda.setIdPedido(idPedido);
                         }
                     })
                     .setNegativeButton("Novo", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            // Excluir itens do pedido
+                        // Excluir itens do pedido
+                        _produtoHelper.RemovePedidoItensPorIdPedido(idPedido);
+                        _comanda.setIdPedido(idPedido);
                         }
                     })
                     .setNeutralButton("Menu", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            finish();
+                        finish();
                         }
                     });
             builder.show();
         } else {
             // Adiciona um novo Pedido
-            Pedido pedido = new Pedido(0, new Date(), 0);
+            Pedido pedido = new Pedido(0, new Date(), 0);   // Status = 0 - Aberto
             PedidoHelper pHelper = new PedidoHelper(this);
             _comanda.setIdPedido(pHelper.AdicionaPedido(pedido));
         }

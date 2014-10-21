@@ -9,12 +9,14 @@ public class Comanda implements Serializable {
 
     private long idPedido;
     private int idGrupo;
-    private float qtdeItem;
+    private double qtdeItem;
+    private boolean iniciarPedido;
     private Produto produto;
 
     public Comanda(){
         this.idPedido = 0;
         this.idGrupo = 0;
+        this.iniciarPedido = true;
     }
 
     public long getIdPedido() {
@@ -41,11 +43,19 @@ public class Comanda implements Serializable {
         this.produto = produto;
     }
 
-    public float getQtdeItem() {
+    public double getQtdeItem() {
         return qtdeItem;
     }
 
-    public void setQtdeItem(float qtdeItem) {
+    public void setQtdeItem(double qtdeItem) {
         this.qtdeItem = qtdeItem;
+    }
+
+    public boolean isIniciarPedido() {
+        return iniciarPedido;
+    }
+
+    public void setIniciarPedido(boolean iniciarPedido) {
+        this.iniciarPedido = iniciarPedido;
     }
 }

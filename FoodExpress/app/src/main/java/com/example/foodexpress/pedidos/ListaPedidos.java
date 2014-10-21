@@ -70,6 +70,6 @@ public class ListaPedidos extends ActivityBase implements AdapterView.OnItemClic
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
+        // TODO
     }
 }
